@@ -1,0 +1,16 @@
+
+
+<p-card>
+    <app-tabla
+    [btnAgregarData]="false"
+    [tableTitle]="'Terceros'"
+    [resizableColumns]="false"
+    [data]="terceros"
+    [globalFilterFields]="fieldsFilter"
+    [mainColumns]="mainColumns"
+    (editarDataEvent)="editarTercero($event)"
+    (eliminarDataEvent)="eliminarTercero($event)"
+/>
+</p-card>
+<p-toast></p-toast>
+<p-confirmDialog />

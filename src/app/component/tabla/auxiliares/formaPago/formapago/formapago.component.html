@@ -1,0 +1,89 @@
+<ng-container *ngIf="!loading">
+  <app-tabla
+    tableTitle="Formas de Pago"
+    [data]="formasDePago"
+    [mainColumns]="mainColumns"
+    [globalFilterFields]="fieldsFilter"
+    [btnAgregarData]="true"
+    (agregarDataEvent)="abrirDialogoAgregarFormaPago()"
+    (editarDataEvent)="editarFormaPago($event)"
+    (eliminarDataEvent)="eliminarFormaPago($event)"
+  ></app-tabla> 
+  
+</ng-container>
+
+<ng-container *ngIf="loading">
+  <div class="flex justify-content-center align-items-center h-full">
+    <p-progressSpinner 
+      styleClass="w-4rem h-4rem" 
+      strokeWidth="6" 
+      animationDuration="0"/>
+  </div>
+</ng-container>
+
+<p-dialog
+  header="Header"
+  [(visible)]="visible"
+  [modal]="true"
+  [resizable]="false"
+  [draggable]="false"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <i class="pi pi-money-bill mr-2"></i>
+      <span class="font-bold white-space-nowrap">
+        Agregar nueva Forma de Pago
+      </span>
+    </div>
+  </ng-template>
+  <form [formGroup]="formaPagoForm">
+    <p-panel header="Forma de Pago">
+      <div class="flex gap-3">
+        <div>
+          <label for="nombre" class="block font-bold mb-2">Nombre</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-hashtag" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Nombre"
+              formControlName="nombre"
+              [ngClass]="{ 'ng-invalid ng-dirty': formaPagoForm.get('nombre')?.invalid && formaPagoForm.get('nombre')?.touched }"
+            />
+          </p-iconField>
+        </div>
+        <div>
+          <label for="descrip" class="block font-bold mb-2">Descripción</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="bi bi-alphabet" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Descripción"
+              formControlName="descrip"
+              [ngClass]="{ 'ng-invalid ng-dirty': formaPagoForm.get('descrip')?.invalid && formaPagoForm.get('descrip')?.touched }"
+            />
+          </p-iconField>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-center">
+      <p-button
+        label="Cancelar"
+        [outlined]="true"
+        severity="danger"
+        (onClick)="visible = false"
+      />
+      <p-button
+        label="Guardar"
+        [outlined]="true"
+        severity="success"
+        (onClick)="guardarFormaPago()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>
+<p-toast />
+<p-confirmDialog />

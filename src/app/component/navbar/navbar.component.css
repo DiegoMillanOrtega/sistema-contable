@@ -1,0 +1,22 @@
+p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el sidebar */
+p-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 10000; /* Asegura que el sidebar esté encima de otros elementos */
+  }
+  
+  /* Estilo para el botón para alternar el sidebar */
+  button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10100;
+  }
+  

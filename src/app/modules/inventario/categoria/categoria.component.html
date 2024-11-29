@@ -1,0 +1,106 @@
+<ng-container *ngIf="!loading">
+  <app-tabla
+  tableTitle="Categorias"
+    [data]="categorias"
+    [mainColumns]="mainColumns"
+    [globalFilterFields]="fieldsFilter"
+    [btnAgregarData]="true"
+    (agregarDataEvent)="abrirModalGuardarCategoria()"
+    (eliminarDataEvent)="eliminarCategoria($event)"
+  ></app-tabla>
+</ng-container>
+
+<ng-container *ngIf="loading">
+  <div class="flex justify-content-center align-items-center h-full">
+    <p-progressSpinner
+      styleClass="w-4rem h-4rem"
+      strokeWidth="6"
+      animationDuration="0"
+    />
+  </div>
+</ng-container>
+
+<p-dialog
+  header="Header"
+  [(visible)]="visibleModal"
+  [modal]="true"
+  [resizable]="false"
+  [draggable]="false"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '50vw', height: '60vh' }"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <i class="pi pi-money-bill mr-2"></i>
+      <span class="font-bold white-space-nowrap">
+        Agregar nueva Categoria
+      </span>
+    </div>
+  </ng-template>
+  <form [formGroup]="categoriaForm">
+    <p-panel header="Categoria">
+      <div class="flex flex-wrap justify-content-center">
+        <div class="flex flex-column gap-2 col-6">
+          <label for="codigo" class="block font-bold mb-2">Codigo</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-hashtag" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Codigo"
+              formControlName="codigo"
+              id="codigo"
+              class="w-full"
+            />
+          </p-iconField>
+        </div>
+        <div class="flex flex-column gap-2 col-6">
+          <label for="nombre" class="block font-bold mb-2">Nombre</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="bi bi-alphabet-uppercase" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Nombre"
+              formControlName="category"
+              id="nombre"
+              class="w-full"
+            />
+          </p-iconField>
+        </div>
+        <div class="flex flex-column gap-2 col-6">
+          <label for="descrip" class="block font-bold mb-2">Descripción</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="bi bi-alphabet" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Descripción"
+              formControlName="descrip"
+              id="descrip"
+              class="w-full"
+            />
+          </p-iconField>
+        </div>
+      </div>
+    </p-panel>
+  </form>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-center">
+      <p-button
+        label="Cancelar"
+        [outlined]="true"
+        severity="danger"
+        (onClick)="visibleModal = false"
+      />
+      <p-button
+        label="Guardar"
+        [outlined]="true"
+        severity="success"
+        (onClick)="guardarCategoria()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>
+<p-toast />
+<p-confirmDialog />

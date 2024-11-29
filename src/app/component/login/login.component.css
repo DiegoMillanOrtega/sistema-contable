@@ -1,0 +1,9 @@
+
+input {
+    width: 100%!important;
+}
+.center {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}

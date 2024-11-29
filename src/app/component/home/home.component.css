@@ -1,0 +1,13 @@
+ /* Asumiendo que el sidebar normalmente tiene un ancho de 250px */
+.sidebar-expanded {
+    width: 250px;
+    transition: width 0.3s ease;
+  }
+  
+  .sidebar-collapsed {
+    width: 0;
+    transition: width 0.3s ease;
+    overflow: hidden;
+  } 
+  
+

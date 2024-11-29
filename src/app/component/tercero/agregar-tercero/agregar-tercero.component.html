@@ -1,0 +1,165 @@
+<p-tabView>
+  <p-tabPanel header="Información General">
+    <p-panel>
+      <form action="#" [formGroup]="formTercero">
+        <div class="flex flex-wrap mb-3">
+          <div class="flex flex-column gap-2 col-6">
+            <label for="nit" class="block font-bold mb-2">Nit</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-user" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Nit"
+                id="nit"
+                formControlName="nit"
+                class="w-full"
+                [ngClass]="{ 'ng-invalid ng-dirty': formTercero.get('nit')?.invalid }"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="flex flex-column gap-2 col-6">
+            <label for="tipoDocumento" class="block font-bold mb-2"
+              >Tipo de documento</label
+            >
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-address-book" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Tipo de documento"
+                id="tipoDocumento"
+                formControlName="tipoDocumento"
+                class="w-full"
+                [ngClass]="{ 'ng-invalid ng-dirty': formTercero.get('tipoDocumento')?.invalid }"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="flex flex-column gap-2 col-6">
+            <label for="nombre" class="block font-bold mb-2">Nombre</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-user-edit" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Nombre"
+                formControlName="name"
+                id="nombre"
+                class="w-full"
+                [ngClass]="{ 'ng-invalid ng-dirty': formTercero.get('name')?.invalid}"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="flex flex-column gap-2 col-6">
+            <label for="apellido" class="block font-bold mb-2">Apellido</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-user-edit" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Apellido"
+                formControlName="lastName"
+                id="apellido"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="flex flex-column gap-2 col-6">
+            <label for="ciudad" class="block font-bold mb-2">Cuidad</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-flag" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ciudad"
+                formControlName="ciudad"
+                id="ciudad"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="flex flex-column gap-2 col-6">
+            <label for="pais" class="block font-bold mb-2">Pais</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-flag" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Pais"
+                formControlName="pais"
+                id="pais"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="flex gap-2 col-6">
+            <div class="flex flex-column gap-2 col-6">
+              <label for="fecNacimiento" class="block font-bold mb-2"
+                >Fecha de Nacimiento</label
+              >
+              <p-inputMask
+                mask="99/99/9999"
+                placeholder="00/00/0000"
+                slotChar="dd/mm/yyyy"
+                formControlName="fechaNacimiento"
+              />
+            </div>
+            <div class="flex flex-column gap-2 col-6">
+                <label for="telefono" class="block font-bold mb-2">Telefono</label>
+                <p-inputMask
+                  mask="+57 999 999 9999"
+                  placeholder="+57 999 999 9999"
+                  formControlName="phoneNumber"
+                />
+            </div>
+          </div>
+
+          <!-- <div class="flex flex-column gap-2 col-6">
+            </div> -->
+
+          <div class="flex flex-column gap-2 col-6">
+            <label for="email" class="block font-bold mb-2">Email</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-envelope" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Email"
+                formControlName="email"
+                id="email"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+        </div>
+        <button
+          pButton
+          pRipple
+          [outlined]="true"
+          label="Guardar"
+          class="p-button-success"
+          (click)="guardarTercero()"
+        ></button>
+      </form>
+    </p-panel>
+  </p-tabPanel>
+  <p-tabPanel header="Header 2">
+    <ng-template pTemplate="content">
+      Complex Content to Lazy Load
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Header 3">
+    <ng-template pTemplate="content">
+      Complex Content to Lazy Load
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>
+
+
+<p-toast></p-toast>
