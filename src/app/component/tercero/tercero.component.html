@@ -10,6 +10,8 @@
     [mainColumns]="mainColumns"
     (editarDataEvent)="editarTercero($event)"
     (eliminarDataEvent)="eliminarTercero($event)"
+    [exportarData]="esInvocado"
+    (exportarDataEvent)="exportarTerceros($event)"
 />
 </p-card>
 <p-toast></p-toast>

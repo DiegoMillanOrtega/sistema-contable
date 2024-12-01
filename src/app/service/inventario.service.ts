@@ -23,4 +23,12 @@ export class InventarioService extends ServiceBaseService{
   obtenerTipoBodegas(): Observable<TipoBodega[]> {
     return this.http.get<TipoBodega[]>(`${this.apiUrl}bodega/getTipoBodegas`);
   }
+
+  guardarTipoBodega(tipoBodega: TipoBodega): Observable<TipoBodega> {
+    return this.post<TipoBodega>(`${this.apiUrl}bodega/guardarTipoBodega`, tipoBodega);
+  }
+
+  eliminarTipoBodega(id: number): Observable<any> {
+    return this.delete(`${this.apiUrl}bodega/eliminarTipoBodega/${id}`);
+  }
 }
