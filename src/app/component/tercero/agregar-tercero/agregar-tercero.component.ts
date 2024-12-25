@@ -17,7 +17,7 @@ import { Toast, ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 
-import { log } from 'console';
+import { error, log } from 'console';
 import { Tercero } from '../../../interface/tercero.interface';
 import { TerceroService } from '../../../service/tercero.service';
 
@@ -91,6 +91,7 @@ export class AgregarTerceroComponent implements OnInit{
       this.formTercero.get('nit')?.setErrors({ required: true });
       return;
     }
+
     if (this.formTercero.get('tipoDocumento')?.value === '') {
       this.messageService.add({
         severity: 'error',
@@ -100,6 +101,7 @@ export class AgregarTerceroComponent implements OnInit{
       this.formTercero.get('tipoDocumento')?.setErrors({ required: true });
       return;
     }
+
     if (this.formTercero.get('nombre')?.value === '') {
       this.messageService.add({
         severity: 'error',
@@ -109,6 +111,7 @@ export class AgregarTerceroComponent implements OnInit{
       this.formTercero.get('nombre')?.setErrors({ required: true });
       return;
     }
+
     if (!this.validarFecha(this.formTercero.get('fechaNacimiento')?.value)) {
       this.messageService.add({
         severity: 'error',
@@ -118,23 +121,31 @@ export class AgregarTerceroComponent implements OnInit{
       this.formTercero.get('fechaNacimiento')?.setErrors({ required: true });
       return;
     }
-    this._clienteService.guardarCliente(this.formTercero.value).subscribe(
-      (res) => {
+
+    //Conexion con la api
+    this._clienteService.guardarCliente(this.formTercero.value)
+    .subscribe({
+      next: (res) => {
         this.messageService.add({
-            severity: 'success',
-            summary: 'Cliente Guardado',
+          severity: 'success',
+          summary: 'Cliente Guardado',
           detail: 'El cliente ha sido guardado correctamente',
         });
         this.formTercero.reset();
       },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Cliente No Guardado',
-          detail: error.error.message? error.error.message : 'Hubo un error al guardar el cliente',
-        });
+      error: (error) => {
+        if (error.status === 409) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Tercero Ya Existe',
+            detail: 'El tercero ya existe.',
+          });
+
+          this.formTercero.get('nit')?.setErrors({ required: true });
+          this.formTercero.get('tipoDocumento')?.setErrors({ required: true });
+        }
       }
-    );
+    });
   }
 
   formatearFechaISO(fecha: string) {

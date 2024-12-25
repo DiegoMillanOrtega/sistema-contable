@@ -49,7 +49,7 @@ export class TablaComponent implements OnInit {
   @Input() filas: number = 5; // Número de filas por página
   @Input() filasPorPagina: number[] = [5, 10, 15]; // Número de filas por página
   @Input() btnAgregarData: boolean = false; // Indica si se debe agregar un nuevo registro
-  @Input() inputSearch: boolean = false; // Indica si se debe mostrar un campo de búsqueda
+  @Input() selectColumns: boolean = false; // Indica si se debe mostrar un campo de búsqueda
   @Input() exportarData: boolean = false; // Indica si se debe exportar los datos
   @Input() exportarMultiData: boolean = false; // Indica si se debe exportar los datos
   @Input() seleccionModo: 'single' | 'multiple' = 'single'; // Indica si se puede seleccionar un registro o múltiples

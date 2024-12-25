@@ -41,6 +41,8 @@ export class CategoriaComponent implements OnInit {
   //Variables
   loading = true;
   visibleModal = false;
+  modo!: string;
+  headerModal: string = '';
 
   //Objetos
   categorias: Categoria[] = [];
@@ -87,6 +89,8 @@ export class CategoriaComponent implements OnInit {
 
   abrirModalGuardarCategoria() {
     this.categoriaForm.reset();
+    this.modo = 'agregar';
+    this.headerModal = 'Agregar nueva Categoria';
     this.visibleModal = true;
   }
 
@@ -138,8 +142,24 @@ export class CategoriaComponent implements OnInit {
   }
 
   guardarCategoria() {
+    let msgExitoso: string = '';
+    let msgError: string = '';
     this.visibleModal = false;
     this.loading = true;
+
+    if (this.modo === 'editar') {
+      msgExitoso = 'La categoria ha sido editada correctamente';
+      msgError = 'Hubo un error al editar la categoria';
+    }
+    if (this.modo === 'agregar') {
+      msgExitoso = 'La categoria ha sido agregada correctamente';
+      msgError = 'Hubo un error al agregar la categoria';
+    }
+
+    // Habilitar el campo Codigo si es editar
+    if (this.modo === 'editar') { this.categoriaForm.get('codigo')?.enable() }
+    
+    // Validar campos
     if (this.categoriaForm.get('categoria')?.value === '') {
       this.messageService.add({
         severity: 'error',
@@ -162,7 +182,7 @@ export class CategoriaComponent implements OnInit {
           this.messageService.add({
             severity: 'success',
             summary: 'Categoria Guardada',
-            detail: 'La categoria ha sido guardada correctamente',
+            detail: msgExitoso,
           });
           this.categorias = [...this.categorias, res];
         },
@@ -170,15 +190,21 @@ export class CategoriaComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Categoria No Guardada',
-            detail: error.error.message
-              ? error.error.message
-              : 'Hubo un error al guardar la categoria',
+            detail: msgError,
           });
         }
       );
   }
-
+  
   editarCategoria(categoria: Categoria) {
+    this.categoriaForm.patchValue(categoria);
+    this.categoriaForm.get('codigo')?.disable()
+    this.modo = 'editar';
+    this.headerModal = 'Editar Categoria ' + categoria.category;
+    this.visibleModal = true;
+  }
+
+  editarCategoria1(categoria: Categoria) {
     this.loading = true;
     this._categoriaService
       .guardarCategoria(categoria)

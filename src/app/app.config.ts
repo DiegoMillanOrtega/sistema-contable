@@ -13,12 +13,14 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { httpInterceptor } from './core/interceptor/http.interceptor';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(withFetch(), withInterceptors([httpInterceptor])),
+    provideHttpClient(withInterceptors([httpInterceptor])),
 
   ],
 };

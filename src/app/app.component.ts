@@ -7,6 +7,7 @@ import { AuthService } from './core/service/auth.service';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { SidebarComponent } from './component/sidebar/sidebar.component';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ import { ButtonModule } from 'primeng/button';
     NavbarComponent,
     SidebarComponent,
     ButtonModule,
-    RouterModule
+    RouterModule,
+    ToastModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

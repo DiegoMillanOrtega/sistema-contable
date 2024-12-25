@@ -6,6 +6,7 @@
     [globalFilterFields]="fieldsFilter"
     [btnAgregarData]="true"
     (agregarDataEvent)="abrirModalGuardarCategoria()"
+    (editarDataEvent)="editarCategoria($event)"
     (eliminarDataEvent)="eliminarCategoria($event)"
   ></app-tabla>
 </ng-container>
@@ -33,7 +34,7 @@
     <div class="inline-flex align-items-center justify-content-center gap-2">
       <i class="pi pi-money-bill mr-2"></i>
       <span class="font-bold white-space-nowrap">
-        Agregar nueva Categoria
+        {{ headerModal }}
       </span>
     </div>
   </ng-template>
