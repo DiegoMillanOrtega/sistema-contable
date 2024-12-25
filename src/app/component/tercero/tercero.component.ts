@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TablaComponent } from '../tabla/tabla/tabla.component';
 import { Tercero } from '../../interface/tercero.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -31,6 +31,10 @@ import { TerceroService } from '../../service/tercero.service';
   providers: [ MessageService, ConfirmationService, TerceroService],
 })
 export class TerceroComponent implements OnInit {
+  @Input() esInvocado: boolean = false;
+
+  @Output() exportarTerceroEvento: EventEmitter<Tercero> = new EventEmitter<Tercero>();
+
   agregarTercero!: AgregarTerceroComponent;
 
   terceros: Tercero[] = [];
@@ -120,5 +124,17 @@ export class TerceroComponent implements OnInit {
         );
       },
     });
+  }
+
+  exportarTerceros(tercero: Tercero) {
+    if (tercero === undefined) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al exportar el campo Tercero',
+      });
+      return;
+    }
+    this.exportarTerceroEvento.emit(tercero);
   }
 }

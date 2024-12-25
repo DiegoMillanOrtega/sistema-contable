@@ -25,6 +25,7 @@ import { InventarioService } from '../../../service/inventario.service';
 import { TabViewModule } from 'primeng/tabview';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { TerceroComponent } from "../../../component/tercero/tercero.component";
 
 
 
@@ -50,8 +51,9 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
     InputNumberModule,
     TabViewModule,
     InputGroupModule,
-    InputGroupAddonModule
-  ],
+    InputGroupAddonModule,
+    TerceroComponent
+],
   templateUrl: './bodega.component.html',
   styleUrl: './bodega.component.css',
   providers: [BodegaService, MessageService, ConfirmationService, TerceroService, InventarioService],
@@ -61,6 +63,7 @@ export class BodegaComponent {
   loading = true;
   visible = false;
   visibleTipoBodega = false;
+  visibleTerceros = false;
 
   //Objetos
   bodegas: Bodega[] = [];
@@ -69,13 +72,13 @@ export class BodegaComponent {
   tipoBodegaForm!: FormGroup;
   terceros: Tercero[] = [];
   estados: Object[] = [{ estado: 'Activo' }, { estado: 'Inactivo' }];
-  mainColumns: { field: string; header: string }[] = [
+  mainColumns: { field: string; header: string; object?: boolean; objectKey?: string }[] = [
     { field: 'nombre', header: 'Nombre' },
     { field: 'descrip', header: 'Descripción' },
     { field: 'telefono', header: 'Telefono' },
     { field: 'ubicacion', header: 'Ubicación' },
-    { field: 'responsable', header: 'Responsable' },
-    { field: 'tipoBodega', header: 'Tipo de Bodega' },
+    { field: 'responsable', header: 'Responsable', object: true, objectKey: 'name' },
+    { field: 'tipoBodega', header: 'Tipo de Bodega', object: true, objectKey: 'nombre' },
     {field: 'estado', header: 'Estado'},
   ];
   optionalColumns: { field: string; header: string }[] = [
@@ -90,7 +93,7 @@ export class BodegaComponent {
     { field: 'descripcion', header: 'Descripción' },
   ];
   fieldsFilterTipoBodega: string[] = ['tipoBodId', 'nombre', 'descripcion'];
-  fieldsFilter: string[] = ['id', 'nombre', 'descrip'];
+  fieldsFilter: string[] = ['bodId', 'nombre', 'descrip'];
 
   // Servicios
   private _bodegaService = inject(BodegaService);
@@ -102,7 +105,7 @@ export class BodegaComponent {
 
   constructor() {
     this.bodegaForm = this.form.group({
-      id: [''],
+      bodId: [''],
       nombre: [''],
       descripcion: [''],
       telefono: [''],
@@ -117,11 +120,10 @@ export class BodegaComponent {
     });
 
     this.tipoBodegaForm = this.form.group({
-      id: [''],
+      tipoBodId: [''],
       nombre: [''],
       descripcion: [''],
       fechaCreacion: [''],
-      bodega: [''],
     });
   }
 
@@ -146,6 +148,8 @@ export class BodegaComponent {
     .subscribe(
       (res) => {
         this.bodegas = res;
+        console.log(res);
+        
       },
       (error) => {
         console.error(error);
@@ -235,7 +239,6 @@ export class BodegaComponent {
   }
 
   guardarBodega() {
-    this.visible = false;
     this.loading = true;
     console.log(this.bodegaForm.value);
     
@@ -257,6 +260,36 @@ export class BodegaComponent {
       this.bodegaForm.get('descrip')?.setErrors({ required: true });
       return;
     }
+    if (this.bodegaForm.get('tipoBodega')?.value !== '') {
+      const tipoBodega: TipoBodega | undefined = this.tipoBodegas.find(
+        (t) => t.tipoBodId === this.bodegaForm.get('tipoBodega')?.value
+      );
+      if (tipoBodega === undefined) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'El Tipo de Bodega seleccionado no existe',
+        });
+        this.bodegaForm.get('tipoBodega')?.setErrors({ required: true });
+        return;
+      }
+      this.bodegaForm.get('tipoBodega')?.setValue(tipoBodega);
+    }
+    if (this.bodegaForm.get('responsable')?.value !== '') {
+      const responsable: Tercero | undefined = this.terceros.find(
+        (t) => t.nit === this.bodegaForm.get('responsable')?.value
+      );
+      if (responsable === undefined) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'El Responsable seleccionado no existe',
+        });
+        this.bodegaForm.get('responsable')?.setErrors({ required: true });
+        return;
+      }
+      this.bodegaForm.get('responsable')?.setValue(responsable);
+    }
 
     this._inventarioService
       .guardarBodega(this.bodegaForm.value)
@@ -273,23 +306,21 @@ export class BodegaComponent {
             detail: 'La bodega ha sido guardada correctamente',
           });
           this.bodegas = [...this.bodegas, res];
+          this.visible = false;
+          this.bodegaForm.reset();
         },
         (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Bodega No Guardada',
-            detail: error.error.message
-              ? error.error.message
-              : 'Hubo un error al guardar la bodega',
+            detail:  'Hubo un error al guardar la bodega',
           });
         }
       );
   }
 
   guardarTipoBodega() {
-    this.visibleTipoBodega = false;
     this.loading = true;
-    console.log(this.tipoBodegaForm.value);
     
     if (this.tipoBodegaForm.get('nombre')?.value === '') {
       this.messageService.add({
@@ -308,6 +339,84 @@ export class BodegaComponent {
       });
       this.tipoBodegaForm.get('descrip')?.setErrors({ required: true });
       return;
+    }
+    this._inventarioService.guardarTipoBodega(this.tipoBodegaForm.value)
+    .pipe(
+      finalize(() => {
+        this.loading = false;
+      })
+    )
+    .subscribe(
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Tipo de Bodega Guardado',
+          detail: 'El tipo de bodega ha sido guardado correctamente',
+        });
+        this.tipoBodegas = [...this.tipoBodegas, res];
+        this.visibleTipoBodega = false;
+        this.tipoBodegaForm.reset();
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Tipo de Bodega No Guardado',
+          detail: error.error.message
+            ? error.error.message
+            : 'Hubo un error al guardar el tipo de bodega',
+        });
+      }
+    )
+  }
+
+  asignarTipoBodegaInput(tipoBodega: TipoBodega) {
+    if (tipoBodega !== null) {
+      this.bodegaForm.get('tipoBodega')?.setValue(tipoBodega.tipoBodId);
+      this.visibleTipoBodega = false;
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al asignar el campo Tipo de Bodega',
+      });
+    }
+    
+    
+  }
+
+  editarBodega(bodega: Bodega) {
+    if (bodega === null) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al editar el campo Bodega',
+      });
+      return;
+    }
+    this.bodegaForm.patchValue({
+      ...bodega,
+      responsable: bodega.responsable.name,
+      tipoBodega: bodega.tipoBodega.tipoBodId,
+    });
+    this.visible = true;
+  }
+
+  abrirModalTerceros() {
+    if (this.bodegaForm.get('responsable')?.value !== '') {
+
+    }
+  }
+
+  asignarTerceroInput(tercero: Tercero) {
+    if (tercero !== undefined) {
+      this.bodegaForm.get('responsable')?.setValue(tercero.nit);
+      this.visibleTerceros = false;
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al asignar el campo Tercero',
+      });
     }
   }
 }

@@ -2,6 +2,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -16,7 +17,8 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { ToastModule } from 'primeng/toast';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tabla',
@@ -30,14 +32,17 @@ import { MenuItem } from 'primeng/api';
     InputIconModule,
     InputTextModule,
     MenuModule,
-    ToastModule
+    ToastModule,
+    CommonModule
   ],
   templateUrl: './tabla.component.html',
   styleUrl: './tabla.component.css',
+  providers: [MessageService],
 })
 export class TablaComponent implements OnInit {
   @Input() data: any[] = []; // Datos de la tabla
-  @Input() mainColumns: { field: string; header: string }[] = []; // Columnas principales, siempre visibles
+  @Input() dataKey: string = 'id'; // Clave de los datos
+  @Input() mainColumns: { field: string; header: string, object?: boolean, objectKey?: string }[] = []; // Columnas principales, siempre visibles
   @Input() optionalColumns: { field: string; header: string }[] = []; // Columnas opcionales, seleccionables
   @Input() tableTitle: string = 'Tabla de Datos'; // Título de la tabla
   @Input() globalFilterFields: string[] = []; // Campos para el filtro global
@@ -46,6 +51,8 @@ export class TablaComponent implements OnInit {
   @Input() btnAgregarData: boolean = false; // Indica si se debe agregar un nuevo registro
   @Input() inputSearch: boolean = false; // Indica si se debe mostrar un campo de búsqueda
   @Input() exportarData: boolean = false; // Indica si se debe exportar los datos
+  @Input() exportarMultiData: boolean = false; // Indica si se debe exportar los datos
+  @Input() seleccionModo: 'single' | 'multiple' = 'single'; // Indica si se puede seleccionar un registro o múltiples
   @Input() resizableColumns: boolean = true; // Indica si se debe redimensionar las columnas
   @Output() editarDataEvent = new EventEmitter<any>(); // Evento para emitir datos cuando se edita un registro
   @Output() eliminarDataEvent = new EventEmitter<any>(); // Evento para emitir datos cuando se elimina un registro
@@ -57,6 +64,9 @@ export class TablaComponent implements OnInit {
   selectedRows: any[] = [];
   searchValue: string = '';
 
+
+  // Servicios
+  private messageService = inject(MessageService);
 
   ngOnInit(): void {
     console.log(this.data)
@@ -86,11 +96,26 @@ export class TablaComponent implements OnInit {
   }
   
   exportarDataTable() {
-    if (this.exportarData) {
-      this.exportarDataEvent.emit();
+    if (this.selectedRows === undefined) {
+      this.messageService.clear();
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe seleccionar al menos una fila',
+      });
+      return;
     }
-    console.log(this.selectedRows);
-    
 
+    if (this.seleccionModo === 'multiple' && this.selectedRows.length > 0) {
+      this.exportarDataEvent.emit(this.selectedRows);
+    }
+
+    if (this.seleccionModo === 'single') {
+      this.exportarDataEvent.emit(this.selectedRows);
+    }
   }
+
+  trackByIndex(index: number, item: any): number {
+    return index;
+}
 }

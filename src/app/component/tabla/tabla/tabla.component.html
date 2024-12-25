@@ -2,6 +2,7 @@
     <p-table
       #dt1
       [value]="data"
+      [dataKey]="dataKey"
       [paginator]="true"
       responsiveLayout="stack" 
       [breakpoint]="'960px'"
@@ -15,12 +16,17 @@
       [rows]="filas"
       [rowsPerPageOptions]="filasPorPagina"
       [metaKeySelection]="true" 
-      selectionMode="multiple" 
+      [selectionMode]="seleccionModo" 
       [resizableColumns]="resizableColumns"
     >
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
           <h5 class="m-0">{{ tableTitle }}</h5>
+          @if (exportarData) {
+            <div class="col-2">
+              <p-button label="Primary" [outlined]="true" label="Exportar" icon="pi pi-download" (keydown)="onKeydown($event)" (click)="exportarDataTable()"></p-button>
+            </div>
+          }
           @if (btnAgregarData) {
             <div class="col-2">
               <p-button label="Primary" [outlined]="true" label="Agregar" icon="pi pi-plus" (click)="agregarData()"></p-button>
@@ -61,7 +67,7 @@
         <tr>
           <ng-container>
             @for (col of mainColumns; track $index) {
-                <th (keydown)="onKeydown($event)"  pResizableColumn pSortableColumn="{{ col.field }}">{{ col.header }} <p-sortIcon field="{{ col.field }}" /></th>
+                <th pResizableColumn pSortableColumn="{{ col.field }}">{{ col.header }} <p-sortIcon field="{{ col.field }}" /></th>
             }
           </ng-container>
           <ng-container>
@@ -75,11 +81,18 @@
   
       <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
         <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-          <ng-container>
-            @for (col of mainColumns; track $index) {
-                <td>{{ rowData[col.field] }}</td>
-            }
-          </ng-container>
+          <td *ngFor="let col of mainColumns; let index = index; trackBy: trackByIndex">
+            <!-- Si es un objeto, muestra el campo de la clave del objeto -->
+            <ng-container *ngIf="col.object; else elseBlock">
+              <ng-container *ngIf="col.objectKey"> 
+                {{ rowData[col.field]?.[col.objectKey] }} 
+              </ng-container>
+            </ng-container>
+            <!-- Si no es un objeto, muestra el campo plano -->
+            <ng-template #elseBlock>
+              {{ rowData[col.field] }}
+            </ng-template>
+          </td>
           <ng-container>
             @for (col of selectedOptionalColumns; track $index) {
                 <td>{{ rowData[col.field] }}</td>
@@ -91,13 +104,15 @@
             class="mr-2"
               [rounded]="true"
               [outlined]="true"
-              severity="success"    
+              severity="success"  
+              (click)="editarDataEvent.emit(rowData)"  
               ></p-button>
             <p-button
               icon="pi pi-trash"
               severity="danger"
               [rounded]="true"
               [outlined]="true"              
+              (click)="eliminarDataEvent.emit(rowData)"
               ></p-button>
           </td>
         </tr>
@@ -110,4 +125,4 @@
       </ng-template>
     </p-table>
     <p-toast />
-</div>
+</div>  
