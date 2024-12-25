@@ -1,8 +1,506 @@
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-/>
-<p-button (onClick)="showDialog()" [icon]="icon" [label]="label" />
+<form [formGroup]="producto">
+  <p-tabView styleClass="tabview-custom">
+    <p-tabPanel header="Datos básicos">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold white-space-nowrap m-0">
+            Datos básicos
+          </span>
+          <i class="pi pi-info-circle"></i>
+        </div>
+      </ng-template>
+      <div class="border">
+        <!-- Codigo y nombre del producto -->
+        <div class="flex flex-wrap justify-content-around align-items-center">
+          <div class="flex flex-column gap-2 lg:col-6 col-12">
+            <label for="codigo" class="font-medium"
+              >Codigo del producto</label
+            >
+            <p-inputGroup>
+              <p-inputGroupAddon>
+                <i class="pi pi-user"></i>
+              </p-inputGroupAddon>
+              <input
+                type="text"
+                pInputText
+                formControlName="codigo"
+                id="codigo"
+              />
+            </p-inputGroup>
+          </div>
+          <div class="flex flex-wrap flex-column gap-2 lg:col-6 col-12">
+            <label for="nombre" class="font-medium"
+              >Nombre del producto</label
+            >
+            <p-inputGroup>
+              <p-inputGroupAddon>
+                <i class="bi bi-alphabet"></i>
+              </p-inputGroupAddon>
+              <input
+                type="text"
+                pInputText
+                formControlName="product"
+                id="nombre"
+              />
+            </p-inputGroup>
+          </div>
+        </div>
+
+        <!-- Descripcion y categoria del producto -->
+        <!-- Unidad de medida del producto -->
+        <div class="flex flex-wrap justify-content-around align-items-center">
+          <div class="flex flex-column gap-2 lg:col-6 col-12">
+            <label for="descrip" class="font-medium"
+              >Descripcion del producto</label
+            >
+            <p-inputGroup>
+              <p-inputGroupAddon>
+                <i class="bi bi-textarea-resize"></i>
+              </p-inputGroupAddon>
+              <input
+                type="text"
+                pInputText
+                formControlName="descrip"
+                id="descrip"
+              />
+            </p-inputGroup>
+          </div>
+          <div class="flex flex-wrap gap-2 lg:col-6 col-12">
+            <div class="flex flex-column lg:col-5 gap-2">
+              <label for="category"> Categoria </label>
+              <p-dropdown
+                placeholder="Seleccione una categoria"
+                formControlName="category"
+                [editable]="true"
+                [options]="categorias"
+                optionLabel="category"
+                id="category"
+              />
+            </div>
+            <div class="flex flex-column lg:col-6 gap-2">
+              <label for="unidad" class="font-medium">Unidad de medida</label>
+              <p-dropdown
+                formControlName="unidadMedida"
+                [options]="unidadesDeMedida"
+                [editable]="true"
+                optionValue="value"
+                optionLabel="label"
+                id="unidad"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Datos Financieros">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold white-space-nowrap m-0">
+            Datos Finacieros
+          </span>
+          <i class="pi pi-wallet"></i>
+        </div>
+      </ng-template>
+      <div class="border">
+        <div class="flex flex-wrap justify-content-center gap-3">
+          <div class="card flex">
+            <p-fieldset legend="Precio Producto">
+              <div class="flex-auto">
+                <label class="font-bold block mb-2" for="precioVenta">
+                  Precio de venta
+                </label>
+                <p-inputNumber
+                  inputId="precioVenta"
+                  mode="currency"
+                  currency="COP"
+                  locale="es-CO"
+                  formControlName="precioVenta"
+                  class="w-full"
+                />
+              </div>
+              <div class="flex-auto mt-2">
+                <label class="font-bold block mb-2" for="precioCosto">
+                  Precio de costo
+                </label>
+                <p-inputNumber
+                  inputId="precioCosto"
+                  mode="currency"
+                  currency="COP"
+                  locale="es-CO"
+                  formControlName="precioCosto"
+                />
+              </div>
+              <div class="flex-auto mt-2">
+                <label class="font-bold block mb-2" for="precioMayorista">
+                  Precio Mayorista
+                </label>
+                <p-inputNumber
+                  inputId="precioMayorista"
+                  mode="currency"
+                  currency="COP"
+                  locale="es-CO"
+                  formControlName="precioMayorista"
+                  class="w-full"
+                />
+              </div>
+            </p-fieldset>
+          </div>
+
+          <div class="card flex">
+            <p-fieldset legend="Ganancias">
+              <div class="flex-auto">
+                <label class="font-bold block mb-2" for="margenGanancia">
+                  Margen de ganancia
+                </label>
+                <p-inputNumber
+                  inputId="margenGanancia"
+                  suffix="%"
+                  [min]="0"
+                  [max]="100"
+                  formControlName="margenGanancia"
+                />
+                <label class="font-bold block mb-2" for="margenGanancia">
+                  Margen fijo
+                </label>
+                <p-inputNumber
+                  inputId="margenGanancia"
+                  suffix="%"
+                  [min]="0"
+                  [max]="100"
+                  formControlName="margenGanancia"
+                />
+              </div>
+            </p-fieldset>
+          </div>
+          <div class="card flex">
+            <p-fieldset legend="Impuestos">
+              <div class="flex-auto">
+                <label class="font-bold block mb-2" for="iva"> Iva </label>
+                <p-inputNumber
+                  inputId="iva"
+                  suffix="%"
+                  [min]="0"
+                  [max]="100"
+                  formControlName="iva"
+                />
+              </div>
+              <div class="flex-auto mt-2">
+                <label class="font-bold block mb-2" for="iva"> INC </label>
+                <p-inputNumber
+                  inputId="iva"
+                  suffix="%"
+                  [min]="0"
+                  [max]="100"
+                  formControlName="iva"
+                />
+              </div>
+              <div class="flex-auto mt-2">
+                <label class="font-bold block mb-2" for="iva">
+                  Aranceles
+                </label>
+                <p-inputNumber
+                  inputId="iva"
+                  suffix="%"
+                  [min]="0"
+                  [max]="100"
+                  formControlName="iva"
+                />
+              </div>
+              <div class="flex-auto mt-2">
+                <label class="font-bold block mb-2" for="iva">
+                  Impuestos ambientales
+                </label>
+                <p-inputNumber
+                  inputId="iva"
+                  suffix="%"
+                  [min]="0"
+                  [max]="100"
+                  formControlName="iva"
+                />
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Datos de Inventario">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold white-space-nowrap m-0">
+            Datos de Inventario
+          </span>
+          <i class="bi bi-boxes"></i>
+        </div>
+      </ng-template>
+      <div class="border">
+        <div class="flex flex-wrap gap-3">
+          <div class="card flex">
+            <!-- Unidades -->
+            <p-fieldset legend="Unidades">
+              <div class="flex-auto gap-2">
+                <div class="flex flex-column">
+                  <label class="mb-2 block font-bold" for="cantidad">
+                    Cantidad de unidades
+                  </label>
+                  <p-inputNumber
+                    [showButtons]="true"
+                    buttonLayout="horizontal"
+                    inputId="cantidad"
+                    spinnerMode="horizontal"
+                    [step]="1"
+                    decrementButtonClass="p-button-danger"
+                    incrementButtonClass="p-button-success"
+                    incrementButtonIcon="pi pi-plus"
+                    decrementButtonIcon="pi pi-minus"
+                    formControlName="stock"
+                  />
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label class="mb-2 block font-bold" for="cantMinStock">
+                    Cantidad mínima de unidades
+                  </label>
+                  <p-inputNumber
+                    [showButtons]="true"
+                    buttonLayout="horizontal"
+                    inputId="cantMinStock"
+                    spinnerMode="horizontal"
+                    [step]="1"
+                    decrementButtonClass="p-button-danger"
+                    incrementButtonClass="p-button-success"
+                    incrementButtonIcon="pi pi-plus"
+                    decrementButtonIcon="pi pi-minus"
+                    formControlName="cantMinStock"
+                  />
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+          <!-- Ubicación -->
+          <div class="card flex">
+            <p-fieldset legend="Ubicación">
+              <div class="flex-auto gap-2">
+                <div class="flex flex-column">
+                  <label class="mb-2 block font-bold" for="bodega">
+                    Bodega
+                  </label>
+                  <p-inputGroup>
+                    <input
+                      type="text"
+                      pInputText
+                      placeholder="Bodega"
+                      id="bodega"
+                      formControlName="bodega"
+                    />
+                    <button
+                      type="button"
+                      pButton
+                      icon="pi pi-home"
+                      class="p-button-secondary"
+                      (click)="vistaModal = 'bodega' ; headerModal = 'Bodega'; visibleModal = true"
+                    ></button>
+                  </p-inputGroup>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+          <!-- Fecha -->
+          <div class="card flex">
+            <p-fieldset legend="Fecha">
+              <div class="flex-auto gap-2">
+                <div class="flex flex-column">
+                  <label class="mb-2 block font-bold" for="fechaCreacion">
+                    Fecha de Compra
+                  </label>
+                  <p-inputMask
+                    mask="99/99/9999"
+                    placeholder="00/00/0000"
+                    slotChar="mm/dd/yyyy"
+                    formControlName="fechaCreacion"
+                  />
+                </div>
+                <div class="flex flex-column mt-2">
+                  <label class="mb-2 block font-bold" for="fechaVencimiento">
+                    Fecha de Vencimiento
+                  </label>
+                  <p-inputMask
+                    mask="99/99/9999"
+                    placeholder="00/00/0000"
+                    slotChar="mm/dd/yyyy"
+                    formControlName="fechaVencimiento"
+                  />
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold white-space-nowrap m-0">
+            Datos del Proveedor
+          </span>
+          <i class="pi pi-user"></i>
+        </div>
+      </ng-template>
+
+      <div class="border">
+        <div class="flex flex-wrap justify-content-center gap-3">
+          <div class="card flex">
+            <p-fieldset legend="Proveedor">
+              <div class="flex-auto gap-2">
+                <div class="flex flex-column">
+                  <label class="mb-2 block font-bold" for="proveedor">
+                    Proveedor
+                  </label>
+                  <p-dropdown
+                    formControlName="proveedor"
+                    [editable]="true"
+                    [options]="clientes"
+                    optionLabel="name"
+                    id="proveedor"
+                  >
+                    <ng-template let-client pTemplate="item">
+                      <div style="display: flex; align-items: center">
+                        <img
+                          [src]="
+                            'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'
+                          "
+                          alt="Avatar"
+                          style="
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 50%;
+                            margin-right: 8px;
+                          "
+                        />
+                        <span>{{ client.name }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+
+          <div class="card flex">
+            <p-fieldset legend="Condiciones de pago">
+              <div class="flex-auto gap-2">
+                <div class="flex flex-column">
+                  <label class="mb-2 block font-bold" for="bodega">
+                    Metodo de pago
+                  </label>
+                  <p-dropdown
+                    placeholder="Seleccione un metodo de pago"
+                    formControlName="metodoPago"
+                    [editable]="true"
+                    [options]="formasDePago"
+                    optionLabel="descrip"
+                    id="metodoPago"
+                  />
+                </div>
+                <!-- @if (producto.get('metodoPago')?.value.descrip === 'Tarjeta
+                Credito' || producto.get('metodoPago')?.value.descrip ===
+                'Credito Financiacion') {
+                <div class="flex flex-column mt-2">
+                  <label class="mb-2 block font-bold" for="plazoPago">
+                    Fecha de Plazo
+                  </label>
+                  <p-inputMask
+                    mask="99/99/9999"
+                    placeholder="mm/dd/yyyy"
+                    slotChar="mm/dd/yyyy"
+                    formControlName="plazoPago"
+                  />
+                </div>
+                } -->
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Control y Registro">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold white-space-nowrap m-0">
+            Control y Registro
+          </span>
+          <i class="bi bi-journal-text"></i>
+        </div>
+      </ng-template>
+
+      <div class="border">
+        <div class="flex flex-wrap justify-content-center gap-3">
+          <div class="card flex">
+            <p-fieldset legend="Estado del producto">
+              <div class="flex-auto gap-2">
+                <div class="flex align-items-end gap-2">
+                  <div class="flex flex-column gap-2">
+                    <label for="estado" class="font-medium">Estado</label>
+                    <p-dropdown
+                      formControlName="estado"
+                      [options]="estados"
+                      optionLabel="estado"
+                      optionValue="estado"
+                      placeholder="Seleccione"
+                      class="flex flex-wrap"
+                    />
+                  </div>
+                  <p-tag
+                    class="pb-2"
+                    [severity]="'success'"
+                    [value]="
+                      this.producto.get('estado')?.value
+                        ? this.producto.get('estado')?.value.estado
+                        : 'Sin estado'
+                    "
+                  />
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+          <div class="card flex">
+            <p-fieldset legend="Historial de precios">
+              <div class="flex-auto gap-2">
+                <div class="flex gap-2">
+                  <div class="flex flex-column gap-2">
+                    <p-table>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>Fecha</th>
+                          <th>Precio Venta</th>
+                          <th>Precio Costo</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body">
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Contabilidad">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold white-space-nowrap m-0"> Contabilidad </span>
+          <i class="pi pi-chart-bar"></i>
+        </div>
+      </ng-template>
+      <p>At vero eos et accusamus et iusto odio dignissimos...</p>
+    </p-tabPanel>
+  </p-tabView>
+</form>
 <p-dialog
   header="Header"
   [(visible)]="visible"
@@ -17,564 +515,7 @@
       <span class="font-bold white-space-nowrap"> Agregar Producto </span>
     </div>
   </ng-template>
-  <form [formGroup]="producto">
-    <p-tabView styleClass="tabview-custom">
-      <p-tabPanel header="Datos básicos">
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap m-0">
-              Datos básicos
-            </span>
-            <i class="pi pi-info-circle"></i>
-          </div>
-        </ng-template>
-        <div class="border">
-          <!-- Codigo y nombre del producto -->
-          <div class="flex flex-wrap justify-content-around align-items-center">
-            <div class="flex flex-column gap-2 lg:col-6 col-12">
-              <label for="codigo" class="font-medium"
-                >Codigo del producto</label
-              >
-              <p-inputGroup>
-                <p-inputGroupAddon>
-                  <i class="pi pi-user"></i>
-                </p-inputGroupAddon>
-                <input
-                  type="text"
-                  pInputText
-                  formControlName="codigo"
-                  id="codigo"
-                />
-              </p-inputGroup>
-            </div>
-            <div class="flex flex-wrap flex-column gap-2 lg:col-6 col-12">
-              <label for="nombre" class="font-medium"
-                >Nombre del producto</label
-              >
-              <p-inputGroup>
-                <p-inputGroupAddon>
-                  <i class="bi bi-alphabet"></i>
-                </p-inputGroupAddon>
-                <input
-                  type="text"
-                  pInputText
-                  formControlName="product"
-                  id="nombre"
-                />
-              </p-inputGroup>
-            </div>
-          </div>
-
-          <!-- Descripcion y categoria del producto -->
-          <!-- Unidad de medida del producto -->
-          <div class="flex flex-wrap justify-content-around align-items-center">
-            <div class="flex flex-column gap-2 lg:col-6 col-12">
-              <label for="descrip" class="font-medium"
-                >Descripcion del producto</label
-              >
-              <p-inputGroup>
-                <p-inputGroupAddon>
-                  <i class="bi bi-textarea-resize"></i>
-                </p-inputGroupAddon>
-                <input
-                  type="text"
-                  pInputText
-                  formControlName="descrip"
-                  id="descrip"
-                />
-              </p-inputGroup>
-            </div>
-            <div class="flex flex-wrap gap-2 lg:col-6 col-12">
-              <div class="flex flex-column lg:col-5 gap-2">
-                <label for="category"> Categoria </label>
-                <p-dropdown
-                  placeholder="Seleccione una categoria"
-                  formControlName="category"
-                  [editable]="true"
-                  [options]="categorias"
-                  optionLabel="category"
-                  id="category"
-                />
-              </div>
-              <div class="flex flex-column lg:col-6 gap-2">
-                <label for="unidad" class="font-medium">Unidad de medida</label>
-                <p-dropdown
-                  formControlName="unidadMedida"
-                  [options]="unidadesDeMedida"
-                  [editable]="true"
-                  optionValue="value"
-                  optionLabel="label"
-                  id="unidad"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="Datos Financieros">
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap m-0">
-              Datos Finacieros
-            </span>
-            <i class="pi pi-wallet"></i>
-          </div>
-        </ng-template>
-        <div class="border">
-          <div class="flex flex-wrap justify-content-center gap-3">
-            <div class="card flex">
-              <p-fieldset legend="Precio Producto">
-                <div class="flex-auto">
-                  <label class="font-bold block mb-2" for="precioVenta">
-                    Precio de venta
-                  </label>
-                  <p-inputNumber
-                    inputId="precioVenta"
-                    mode="currency"
-                    currency="COP"
-                    locale="es-CO"
-                    formControlName="precioVenta"
-                    class="w-full"
-                  />
-                </div>
-                <div class="flex-auto mt-2">
-                  <label class="font-bold block mb-2" for="precioCosto">
-                    Precio de costo
-                  </label>
-                  <p-inputNumber
-                    inputId="precioCosto"
-                    mode="currency"
-                    currency="COP"
-                    locale="es-CO"
-                    formControlName="precioCosto"
-                  />
-                </div>
-                <div class="flex-auto mt-2">
-                  <label class="font-bold block mb-2" for="precioMayorista">
-                    Precio Mayorista
-                  </label>
-                  <p-inputNumber
-                    inputId="precioMayorista"
-                    mode="currency"
-                    currency="COP"
-                    locale="es-CO"
-                    formControlName="precioMayorista"
-                    class="w-full"
-                  />
-                </div>
-              </p-fieldset>
-            </div>
-
-            <div class="card flex">
-              <p-fieldset legend="Ganancias">
-                <div class="flex-auto">
-                  <label class="font-bold block mb-2" for="margenGanancia">
-                    Margen de ganancia
-                  </label>
-                  <p-inputNumber
-                    inputId="margenGanancia"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    formControlName="margenGanancia"
-                  />
-                  <label class="font-bold block mb-2" for="margenGanancia">
-                    Margen fijo
-                  </label>
-                  <p-inputNumber
-                    inputId="margenGanancia"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    formControlName="margenGanancia"
-                  />
-                </div>
-              </p-fieldset>
-            </div>
-            <div class="card flex">
-              <p-fieldset legend="Impuestos">
-                <div class="flex-auto">
-                  <label class="font-bold block mb-2" for="iva"> Iva </label>
-                  <p-inputNumber
-                    inputId="iva"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    formControlName="iva"
-                  />
-                </div>
-                <div class="flex-auto mt-2">
-                  <label class="font-bold block mb-2" for="iva"> INC </label>
-                  <p-inputNumber
-                    inputId="iva"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    formControlName="iva"
-                  />
-                </div>
-                <div class="flex-auto mt-2">
-                  <label class="font-bold block mb-2" for="iva">
-                    Aranceles
-                  </label>
-                  <p-inputNumber
-                    inputId="iva"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    formControlName="iva"
-                  />
-                </div>
-                <div class="flex-auto mt-2">
-                  <label class="font-bold block mb-2" for="iva">
-                    Impuestos ambientales
-                  </label>
-                  <p-inputNumber
-                    inputId="iva"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    formControlName="iva"
-                  />
-                </div>
-              </p-fieldset>
-            </div>
-          </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="Datos de Inventario">
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap m-0">
-              Datos de Inventario
-            </span>
-            <i class="bi bi-boxes"></i>
-          </div>
-        </ng-template>
-        <div class="border">
-          <div class="flex flex-wrap gap-3">
-            <div class="card flex">
-              <!-- Unidades -->
-              <p-fieldset legend="Unidades">
-                <div class="flex-auto gap-2">
-                  <div class="flex flex-column">
-                    <label class="mb-2 block font-bold" for="cantidad">
-                      Cantidad de unidades
-                    </label>
-                    <p-inputNumber
-                      [showButtons]="true"
-                      buttonLayout="horizontal"
-                      inputId="cantidad"
-                      spinnerMode="horizontal"
-                      [step]="1"
-                      decrementButtonClass="p-button-danger"
-                      incrementButtonClass="p-button-success"
-                      incrementButtonIcon="pi pi-plus"
-                      decrementButtonIcon="pi pi-minus"
-                      formControlName="stock"
-                    />
-                  </div>
-                  <div class="flex flex-column mt-2">
-                    <label class="mb-2 block font-bold" for="cantMinStock">
-                      Cantidad mínima de unidades
-                    </label>
-                    <p-inputNumber
-                      [showButtons]="true"
-                      buttonLayout="horizontal"
-                      inputId="cantMinStock"
-                      spinnerMode="horizontal"
-                      [step]="1"
-                      decrementButtonClass="p-button-danger"
-                      incrementButtonClass="p-button-success"
-                      incrementButtonIcon="pi pi-plus"
-                      decrementButtonIcon="pi pi-minus"
-                      formControlName="cantMinStock"
-                    />
-                  </div>
-                </div>
-              </p-fieldset>
-            </div>
-            <!-- Ubicación -->
-            <div class="card flex">
-              <p-fieldset legend="Ubicación">
-                <div class="flex-auto gap-2">
-                  <div class="flex flex-column">
-                    <label class="mb-2 block font-bold" for="bodega">
-                      Bodega
-                    </label>
-                    <p-inputGroup>
-                      <input
-                        type="text"
-                        pInputText
-                        placeholder="Bodega"
-                        id="bodega"
-                        formControlName="bodega"
-                      />
-                      <button
-                        type="button"
-                        pButton
-                        icon="pi pi-home"
-                        class="p-button-secondary"
-                      ></button>
-                    </p-inputGroup>
-                  </div>
-                </div>
-              </p-fieldset>
-            </div>
-            <!-- Fecha -->
-            <div class="card flex">
-              <p-fieldset legend="Fecha">
-                <div class="flex-auto gap-2">
-                  <div class="flex flex-column">
-                    <label class="mb-2 block font-bold" for="fechaCreacion">
-                      Fecha de Compra
-                    </label>
-                    <p-inputMask
-                      mask="99/99/9999"
-                      placeholder="00/00/0000"
-                      slotChar="mm/dd/yyyy"
-                      formControlName="fechaCreacion"
-                    />
-                  </div>
-                  <div class="flex flex-column mt-2">
-                    <label class="mb-2 block font-bold" for="fechaVencimiento">
-                      Fecha de Vencimiento
-                    </label>
-                    <p-inputMask
-                      mask="99/99/9999"
-                      placeholder="00/00/0000"
-                      slotChar="mm/dd/yyyy"
-                      formControlName="fechaVencimiento"
-                    />
-                  </div>
-                </div>
-              </p-fieldset>
-            </div>
-          </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel>
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap m-0">
-              Datos del Proveedor
-            </span>
-            <i class="pi pi-user"></i>
-          </div>
-        </ng-template>
-
-        <div class="border">
-          <div class="flex flex-wrap justify-content-center gap-3">
-            <div class="card flex">
-              <p-fieldset legend="Proveedor">
-                <div class="flex-auto gap-2">
-                  <div class="flex flex-column">
-                    <label class="mb-2 block font-bold" for="proveedor">
-                      Proveedor
-                    </label>
-                    <p-dropdown
-                      formControlName="proveedor"
-                      [editable]="true"
-                      [options]="clientes"
-                      optionLabel="name"
-                      id="proveedor"
-                    >
-                      <ng-template let-client pTemplate="item">
-                        <div style="display: flex; align-items: center">
-                          <img
-                            [src]="
-                              'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png'
-                            "
-                            alt="Avatar"
-                            style="
-                              width: 24px;
-                              height: 24px;
-                              border-radius: 50%;
-                              margin-right: 8px;
-                            "
-                          />
-                          <span>{{ client.name }}</span>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-              </p-fieldset>
-            </div>
-
-            <div class="card flex">
-              <p-fieldset legend="Condiciones de pago">
-                <div class="flex-auto gap-2">
-                  <div class="flex flex-column">
-                    <label class="mb-2 block font-bold" for="bodega">
-                      Metodo de pago
-                    </label>
-                    <p-dropdown
-                      placeholder="Seleccione un metodo de pago"
-                      formControlName="metodoPago"
-                      [editable]="true"
-                      [options]="formasDePago"
-                      optionLabel="descrip"
-                      id="metodoPago"
-                    />
-                  </div>
-                  <!-- @if (producto.get('metodoPago')?.value.descrip === 'Tarjeta
-                  Credito' || producto.get('metodoPago')?.value.descrip ===
-                  'Credito Financiacion') {
-                  <div class="flex flex-column mt-2">
-                    <label class="mb-2 block font-bold" for="plazoPago">
-                      Fecha de Plazo
-                    </label>
-                    <p-inputMask
-                      mask="99/99/9999"
-                      placeholder="mm/dd/yyyy"
-                      slotChar="mm/dd/yyyy"
-                      formControlName="plazoPago"
-                    />
-                  </div>
-                  } -->
-                </div>
-              </p-fieldset>
-            </div>
-          </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="Control y Registro">
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap m-0">
-              Control y Registro
-            </span>
-            <i class="bi bi-journal-text"></i>
-          </div>
-        </ng-template>
-
-        <div class="border">
-          <div class="flex flex-wrap justify-content-center gap-3">
-            <div class="card flex">
-              <p-fieldset legend="Estado del producto">
-                <div class="flex-auto gap-2">
-                  <div class="flex align-items-end gap-2">
-                    <div class="flex flex-column gap-2">
-                      <label for="estado" class="font-medium">Estado</label>
-                      <p-dropdown
-                        formControlName="estado"
-                        [options]="estados"
-                        optionLabel="estado"
-                        optionValue="estado"
-                        placeholder="Seleccione"
-                        class="flex flex-wrap"
-                      />
-                    </div>
-                    <p-tag
-                      class="pb-2"
-                      [severity]="'success'"
-                      [value]="
-                        this.producto.get('estado')?.value
-                          ? this.producto.get('estado')?.value.estado
-                          : 'Sin estado'
-                      "
-                    />
-                  </div>
-                </div>
-              </p-fieldset>
-            </div>
-            <div class="card flex">
-              <p-fieldset legend="Historial de precios">
-                <div class="flex-auto gap-2">
-                  <div class="flex gap-2">
-                    <div class="flex flex-column gap-2">
-                      <p-table>
-                        <ng-template pTemplate="header">
-                          <tr>
-                            <th>Fecha</th>
-                            <th>Precio Venta</th>
-                            <th>Precio Costo</th>
-                          </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body">
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                        </ng-template>
-                      </p-table>
-                    </div>
-                  </div>
-                </div>
-              </p-fieldset>
-            </div>
-          </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="Contabilidad">
-        <ng-template pTemplate="header">
-          <div class="flex align-items-center gap-2">
-            <span class="font-bold white-space-nowrap m-0"> Contabilidad </span>
-            <i class="pi pi-chart-bar"></i>
-          </div>
-        </ng-template>
-        <p>At vero eos et accusamus et iusto odio dignissimos...</p>
-      </p-tabPanel>
-    </p-tabView>
-    <!-- <div class="flex justify-content-around align-items-center">
-      <div class="flex flex-column gap-2 col-6">
-        <label for="codigo" class="font-medium">Codigo</label>
-        <input
-          type="text"
-          pInputText
-          placeholder="Codigo"
-          formControlName="codigo"
-          id="codigo"
-        />
-      </div>
-      <div class="flex flex-column gap-2 col-6">
-        <label for="producto" class="font-medium">Nombre</label>
-        <input
-          type="text"
-          pInputText
-          placeholder="Nombre del Producto"
-          formControlName="product"
-          id="producto"
-        />
-      </div>
-    </div>
-    <p-divider></p-divider>
-    <div class="flex justify-content-around align-items-center">
-      <div class="flex flex-column gap-2 col-5">
-        <label for="descripcion" class="font-medium">Descripcion</label>
-        <textarea
-          pInputTextarea
-          formControlName="descrip"
-          id="descripcion"
-        ></textarea>
-      </div>
-      <p-divider layout="vertical" />
-      <div class="flex align-items-center gap-2 col-7">
-        <div
-          class="flex justify-content-center align-items-center flex-column gap-2"
-        >
-          <label for="imagen" class="font-medium">Imagen</label>
-          <p-image
-          src="https://primefaces.org/cdn/primeng/images/galleria/galleria10.jpg"
-          alt="Image"
-          width="100"
-          />
-        </div>
-        <p-fileUpload
-          mode="basic"
-          name="demo[]"
-          chooseIcon="pi pi-upload"
-          url="https://www.primefaces.org/cdn/api/upload.php"
-          accept="image/*"
-          maxFileSize="1000000"
-          [auto]="true"
-          chooseLabel="Cargar imagen"
-          />
-        </div>
-      </div> -->
-  </form>
+  
 
   <ng-template pTemplate="footer">
     <button
@@ -587,17 +528,26 @@
     ></button>
   </ng-template>
 </p-dialog>
-<!-- 
-<p-button label="Agregar" [outlined]="true" icon="pi pi-plus" (click)="" />
 
-<form [formGroup]="producto">
-  <div class="row">
-    <div class="col-12 md:col-6">
-      <p-iconField iconPosition="left">
-        <p-inputIcon styleClass="pi pi-search" />
-        <input type="text" pInputText placeholder="Search" />
-      </p-iconField>
+<p-dialog
+  header="Header"
+  [(visible)]="visibleModal"
+  [modal]="true"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '70vw', height: '90vh' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template pTemplate="header">
+    <div class="inline-flex align-items-center justify-content-center gap-2">
+      <span class="font-bold white-space-nowrap"> {{ headerModal }} </span>
     </div>
-  </div>
-</form> -->
+  </ng-template>
+  <ng-template pTemplate="body">
+    <div *ngIf="vistaModal === 'bodega'">
+      <app-bodega/>
+    </div>
+  </ng-template>
+</p-dialog>
+
 <p-toast></p-toast>

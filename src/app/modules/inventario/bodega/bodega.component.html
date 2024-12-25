@@ -1,6 +1,7 @@
 <ng-container *ngIf="!loading">
-    <app-tabla
+  <app-tabla
     [data]="bodegas"
+    dataKey="bodId"
     [mainColumns]="mainColumns"
     [optionalColumns]="optionalColumns"
     tableTitle="Bodegas"
@@ -10,15 +11,16 @@
     (eliminarDataEvent)="eliminarBodega($event)"
     (editarDataEvent)="editarBodega($event)"
     [seleccionModo]="'single'"
-    />
+  />
 </ng-container>
 
 <ng-container *ngIf="loading">
   <div class="flex justify-content-center align-items-center h-full">
-    <p-progressSpinner 
-      styleClass="w-4rem h-4rem" 
-      strokeWidth="6" 
-      animationDuration="0"/><p-toast />
+    <p-progressSpinner
+      styleClass="w-4rem h-4rem"
+      strokeWidth="6"
+      animationDuration="0"
+    /><p-toast />
   </div>
 </ng-container>
 
@@ -34,9 +36,7 @@
   <ng-template pTemplate="header">
     <div class="inline-flex align-items-center justify-content-center gap-2">
       <i class="pi pi-money-bill mr-2"></i>
-      <span class="font-bold white-space-nowrap">
-        Agregar nueva Bodega
-      </span>
+      <span class="font-bold white-space-nowrap"> {{ header }} </span>
     </div>
   </ng-template>
   <form [formGroup]="bodegaForm">
@@ -87,14 +87,31 @@
           />
         </div>
         <div class="flex flex-column gap-2 col-3">
-          <label for="responsable" class="block font-bold mb-2">Responsable</label>
+          <label for="responsable" class="block font-bold mb-2"
+            >Responsable</label
+          >
           <p-inputGroup>
-            <input type="text" pInputText placeholder="Responsable"formControlName="responsable"  id="responsable" />
-            <button type="button" pButton icon="pi pi-user" class="p-button-warning" (click)="visibleTerceros = true"></button>
+            <input
+              type="text"
+              pInputText
+              placeholder="Responsable"
+              formControlName="responsable"
+              id="responsable"
+              [value]="bodegaForm.get('responsable')?.value?.nit || ''"
+            />
+            <button
+              type="button"
+              pButton
+              icon="pi pi-user"
+              class="p-button-warning"
+              (click)="visibleTerceros = true"
+            ></button>
           </p-inputGroup>
         </div>
         <div class="flex flex-column gap-2 col-3">
-          <label for="capacidadMaxima" class="block font-bold mb-2">Capacidad Máxima</label>
+          <label for="capacidadMaxima" class="block font-bold mb-2"
+            >Capacidad Máxima</label
+          >
           <p-inputNumber
             inputId="capacidadMaxima"
             mode="currency"
@@ -117,10 +134,24 @@
           />
         </div>
         <div class="flex flex-column gap-2 col-3">
-          <label for="tipoBodega" class="block font-bold mb-2">Tipo de Bodega</label>
+          <label for="tipoBodega" class="block font-bold mb-2"
+            >Tipo de Bodega</label
+          >
           <p-inputGroup>
-            <input type="text" pInputText placeholder="Tipo de Bodega" formControlName="tipoBodega" />
-            <button type="button" pButton icon="pi pi-plus" class="p-button-warning" (click)="visibleTipoBodega = true"></button>
+            <input
+              type="text"
+              pInputText
+              placeholder="Tipo de Bodega"
+              formControlName="tipoBodega"
+              [value]="bodegaForm.get('tipoBodega')?.value?.tipoBodId || ''"
+            />
+            <button
+              type="button"
+              pButton
+              icon="pi pi-plus"
+              class="p-button-warning"
+              (click)="visibleTipoBodega = true"
+            ></button>
           </p-inputGroup>
         </div>
       </div>
@@ -149,8 +180,8 @@
 <!-- Modal de Tipo de Bodega -->
 <p-dialog
   [(visible)]="visibleTipoBodega"
-  [style]="{width: '70vw'}"
-  [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+  [style]="{ width: '70vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
   header="Tipo de Bodega"
   modal="true"
   [resizable]="false"
@@ -163,15 +194,19 @@
       </span>
     </div>
   </ng-template>
-  <p-tabView>
+  <p-tabView [(activeIndex)]="viewIndexTipoBodega">
     <p-tabPanel header="tipos de Bodega">
       <app-tabla
-      [data]="tipoBodegas"
-      [dataKey]="'tipoBodId'"
-      [mainColumns]="mainColumnsTipoBodega"
-      [globalFilterFields]="fieldsFilterTipoBodega"
-      [exportarData]="true"
-      (exportarDataEvent)="asignarTipoBodegaInput($event)"
+        [data]="tipoBodegas"
+        [dataKey]="'tipoBodId'"
+        [mainColumns]="mainColumnsTipoBodega"
+        [seleccionModo]="'single'"
+        [globalFilterFields]="fieldsFilterTipoBodega"
+        [exportarData]="true"
+        (exportarDataEvent)="asignarTipoBodegaInput($event)"
+        (agregarDataEvent)="abrirModalNuevoTipoBodega()"
+        (editarDataEvent)="editarTipoBodega($event)"
+
       />
     </p-tabPanel>
     <p-tabPanel header="Agregar Bodega">
@@ -192,7 +227,9 @@
             </p-iconField>
           </div>
           <div class="flex flex-column gap-2 col-6">
-            <label for="descrip" class="block font-bold mb-2">Descripción</label>
+            <label for="descrip" class="block font-bold mb-2"
+              >Descripción</label
+            >
             <p-iconField iconPosition="left">
               <p-inputIcon styleClass="bi bi-alphabet" />
               <input
@@ -205,7 +242,6 @@
               />
             </p-iconField>
           </div>
-          
         </div>
       </form>
     </p-tabPanel>
@@ -232,11 +268,14 @@
 <!-- Modal de Terceros -->
 <p-dialog
   [(visible)]="visibleTerceros"
-  [style]="{width: '70vw'}"
-  [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+  [style]="{ width: '70vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
   modal="true"
   [resizable]="false"
-  >
+>
   <ng-template pTemplate="body">
-    <app-tercero [esInvocado]="true" (exportarTerceroEvento)="asignarTerceroInput($event)" />
-    </ng-template>
+    <app-tercero
+      [esInvocado]="true"
+      (exportarTerceroEvento)="asignarTerceroInput($event)"
+    /> </ng-template
+></p-dialog>

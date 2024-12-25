@@ -37,6 +37,9 @@ import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
 import { Producto } from '../../../interface/producto.interface';
 import { TerceroService } from '../../../service/tercero.service';
+import { BodegaComponent } from "../bodega/bodega.component";
+import { Bodega } from '../../../interface/bodega.interface';
+import { InventarioService } from '../../../service/inventario.service';
 
 @Component({
   selector: 'app-agregarproducto',
@@ -63,12 +66,19 @@ import { TerceroService } from '../../../service/tercero.service';
     TableModule,
     ToastModule,
     RippleModule,
-  ],
+    BodegaComponent
+],
   templateUrl: './agregarproducto.component.html',
   styleUrl: './agregarproducto.component.css',
-  providers: [MessageService],
+  providers: [MessageService, InventarioService],
 })
 export class AgregarproductoComponent implements OnInit {
+
+  // Variables
+  vistaModal: string = '';
+  headerModal: string = '';
+  visibleModal: boolean = false;
+
   producto!: FormGroup;
   visible: boolean = false;
   // uploadedFiles: any[] = [];
@@ -77,6 +87,7 @@ export class AgregarproductoComponent implements OnInit {
   categorias: Categoria[] = [];
   formasDePago: FormasDePago[] = [];
   clientes: Tercero[] = [];
+  bodegas: Bodega[] = [];
   @Input() productoRecibo!: Producto;
   @Input() icon: string = '';
   @Input() label: string = '';
@@ -116,6 +127,7 @@ export class AgregarproductoComponent implements OnInit {
   private _openModalClienteService = inject(OpenModalClienteService);
   private _terceroService = inject(TerceroService);
   private _productoService = inject(ProductoService);
+  private _inventarioService = inject(InventarioService);
 
   constructor(
     private form: FormBuilder,
@@ -185,6 +197,17 @@ export class AgregarproductoComponent implements OnInit {
 
   showDialog() {
     this.visible = true;
+  }
+
+  cargarBodegas() {
+    this._inventarioService.obtenerBodegas().subscribe(
+      (res) => {
+        this.bodegas = res;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   getSeverity() {
