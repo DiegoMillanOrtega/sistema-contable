@@ -1,4 +1,5 @@
-import { Tercero } from "./tercero.interface";
+
+import { Terceros } from "./tercero.interface";
 import { TipoBodega } from "./tipo-bodega.interface";
 
 export interface Bodega {
@@ -6,7 +7,7 @@ export interface Bodega {
     nombre: string;
     descripcion: string;
     ubicacion: string;
-    responsable: Tercero;
+    responsable: Terceros;
     capacidadMaxima: Number;
     estado: string;
     fechaCreacion: string;

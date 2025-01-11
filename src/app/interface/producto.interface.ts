@@ -1,6 +1,7 @@
 import { Categoria } from "../interface/categoria.interface";
-import { Tercero } from "./tercero.interface";
+
 import { FormasDePago } from "./formas-de-pago.interface";
+import { Terceros } from "./tercero.interface";
 
 export interface Producto {
     id:               number;
@@ -24,7 +25,7 @@ export interface Producto {
     margenGanancia:   number;
     iva:              number;
     metodoPago:       FormasDePago;
-    proveedor:        Tercero;
+    proveedor:        Terceros;
     estado:           string;
     unidadMedida:     string;
     descrip:          string;

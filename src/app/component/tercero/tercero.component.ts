@@ -1,6 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TablaComponent } from '../tabla/tabla/tabla.component';
-import { Tercero } from '../../interface/tercero.interface';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AgregarTerceroComponent } from './agregar-tercero/agregar-tercero.component';
@@ -11,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TerceroService } from '../../service/tercero.service';
+import { Terceros } from '../../interface/tercero.interface';
 
 @Component({
   selector: 'app-tercero',
@@ -33,18 +33,17 @@ import { TerceroService } from '../../service/tercero.service';
 export class TerceroComponent implements OnInit {
   @Input() esInvocado: boolean = false;
 
-  @Output() exportarTerceroEvento: EventEmitter<Tercero> = new EventEmitter<Tercero>();
+  @Output() exportarTerceroEvento: EventEmitter<Terceros> = new EventEmitter<Terceros>();
 
-  agregarTercero!: AgregarTerceroComponent;
 
-  terceros: Tercero[] = [];
-  mainColumns: { field: string; header: string }[] = [
-    { field: 'nit', header: 'NIT' },
+  terceros: Terceros[] = [];
+  mainColumns: { field: string; header: string, object?: boolean, objectKey?: string }[] = [
+    { field: 'numeroDocumento', header: 'Numero Documento' },
+    { field: 'tipoDocumento', header: 'Tipo de Documento', object: true, objectKey: 'codigo' },
     { field: 'name', header: 'Nombre' },
     { field: 'lastName', header: 'Apellido' },
     { field: 'ciudad', header: 'Ciudad' },
     { field: 'pais', header: 'Pais' },
-    { field: 'tipoDocumento', header: 'Tipo de Documento' },
     { field: 'fechaNacimiento', header: 'Fecha de Nacimiento' },
   ];
   fieldsFilter: string[] = [
@@ -84,13 +83,13 @@ export class TerceroComponent implements OnInit {
     );
   }
 
-  editarTercero(tercero: Tercero) {
+  editarTercero(tercero: Terceros) {
     console.log(tercero);
     //this._terceroCliente.setTercero(tercero); // Reemite después de navegar
     this.router.navigate(['/tercero/agregar-tercero'], { state: { tercero } });
   }
 
-  eliminarTercero(cliente: Tercero) {
+  eliminarTercero(cliente: Terceros) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de que deseas eliminar este tercero? Esta acción no se puede deshacer.',
       header: 'Confirmar Eliminación',
@@ -101,7 +100,7 @@ export class TerceroComponent implements OnInit {
       acceptIcon: 'none',
       rejectIcon: 'none',
       accept: () => {
-        this._terceroService.eliminarCliente(cliente.id).subscribe(
+        this._terceroService.eliminarCliente(cliente.tercero_id).subscribe(
           (res) => {
             this.messageService.add({
               severity: 'success',
@@ -109,7 +108,7 @@ export class TerceroComponent implements OnInit {
               detail: 'El cliente ha sido eliminado correctamente',
             });
             this.terceros = this.terceros.filter(
-              (val) => val.id !== cliente.id
+              (val) => val.tercero_id !== cliente.tercero_id
             );
           },
           (error) => {
@@ -126,7 +125,7 @@ export class TerceroComponent implements OnInit {
     });
   }
 
-  exportarTerceros(tercero: Tercero) {
+  exportarTerceros(tercero: Terceros) {
     if (tercero === undefined) {
       this.messageService.add({
         severity: 'error',
@@ -137,4 +136,9 @@ export class TerceroComponent implements OnInit {
     }
     this.exportarTerceroEvento.emit(tercero);
   }
+
+  agregarTercero() {
+    this.router.navigate(['/tercero/agregar-tercero']);
+  }
+
 }

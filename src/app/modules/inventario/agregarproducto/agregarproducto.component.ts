@@ -30,7 +30,7 @@ import { CategoriaService } from '../../../service/categoria.service';
 import { FormasDePagoService } from '../../../service/formas-de-pago.service';
 import { FormasDePago } from '../../../interface/formas-de-pago.interface';
 import { OpenModalClienteService } from '../../../component/cliente/open-modal-cliente.service';
-import { Tercero } from '../../../interface/tercero.interface';
+
 import { ProductoService } from '../../../service/product.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
@@ -40,6 +40,7 @@ import { TerceroService } from '../../../service/tercero.service';
 import { BodegaComponent } from "../bodega/bodega.component";
 import { Bodega } from '../../../interface/bodega.interface';
 import { InventarioService } from '../../../service/inventario.service';
+import { Terceros } from '../../../interface/tercero.interface';
 
 @Component({
   selector: 'app-agregarproducto',
@@ -86,7 +87,7 @@ export class AgregarproductoComponent implements OnInit {
   //Objetos
   categorias: Categoria[] = [];
   formasDePago: FormasDePago[] = [];
-  clientes: Tercero[] = [];
+  clientes: Terceros[] = [];
   bodegas: Bodega[] = [];
   @Input() productoRecibo!: Producto;
   @Input() icon: string = '';
@@ -127,7 +128,7 @@ export class AgregarproductoComponent implements OnInit {
   private _openModalClienteService = inject(OpenModalClienteService);
   private _terceroService = inject(TerceroService);
   private _productoService = inject(ProductoService);
-  private _inventarioService = inject(InventarioService);
+  //private _inventarioService = inject(InventarioService);
 
   constructor(
     private form: FormBuilder,
@@ -171,22 +172,6 @@ export class AgregarproductoComponent implements OnInit {
         console.error(error);
       }
     );
-    this._formasDePagoService.obtenerFormasDePago().subscribe(
-      (res) => {
-        this.formasDePago = res;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-    this._terceroService.obtenerClientes().subscribe(
-      (res) => {
-        this.clientes = res;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
   }
 
   // onUpload(event: any) {
@@ -197,17 +182,6 @@ export class AgregarproductoComponent implements OnInit {
 
   showDialog() {
     this.visible = true;
-  }
-
-  cargarBodegas() {
-    this._inventarioService.obtenerBodegas().subscribe(
-      (res) => {
-        this.bodegas = res;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
   }
 
   getSeverity() {
@@ -240,4 +214,11 @@ export class AgregarproductoComponent implements OnInit {
       }
     )
   }
+
+  importarBodega(bodega: Bodega) {
+    this.producto.get('bodega')?.setValue(bodega.bodId);
+    this.visibleModal = false;
+  }
+
+
 }

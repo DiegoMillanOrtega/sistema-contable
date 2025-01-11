@@ -7,7 +7,10 @@ import { MessageService } from 'primeng/api';
 
 export const httpInterceptor: HttpInterceptorFn = (req, next) => {
 
-  
+  //Variables
+  let errorMessage: string | null;
+
+  //Servicios
   const authService = inject(AuthService);
   const messageService = inject(MessageService);
 
@@ -65,11 +68,15 @@ export const httpInterceptor: HttpInterceptorFn = (req, next) => {
 
           case 409:
             console.log('HTTP Error Response 409', error);
+
+            errorMessage = error.headers.get('error');
+
+            console.log('errorMessage', errorMessage);
   
             messageService.add({
               severity: 'warn',
               summary: 'Conflicto',
-              detail: 'El recurso solicitado ya existe.',
+              detail: errorMessage || 'El recurso solicitado ya existe.',
             });
   
             break;

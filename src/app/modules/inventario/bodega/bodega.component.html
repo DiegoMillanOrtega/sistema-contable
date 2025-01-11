@@ -11,6 +11,8 @@
     (eliminarDataEvent)="eliminarBodega($event)"
     (editarDataEvent)="editarBodega($event)"
     [seleccionModo]="'single'"
+    [exportarData]="exportarData"
+    (exportarDataEvent)="exportarBodega($event)"
   />
 </ng-container>
 
@@ -97,7 +99,7 @@
               placeholder="Responsable"
               formControlName="responsable"
               id="responsable"
-              [value]="bodegaForm.get('responsable')?.value?.nit || ''"
+              [value]="bodegaForm.get('responsable')?.value?.numeroDocumento || ''"
             />
             <button
               type="button"

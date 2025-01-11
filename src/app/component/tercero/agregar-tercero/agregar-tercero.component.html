@@ -1,153 +1,6 @@
-<p-tabView>
+<!-- <p-tabView>
   <p-tabPanel header="Información General">
-    <p-panel>
-      <form action="#" [formGroup]="formTercero">
-        <div class="flex flex-wrap mb-3">
-          <div class="flex flex-column gap-2 col-6">
-            <label for="nit" class="block font-bold mb-2">Nit</label>
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-user" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Nit"
-                id="nit"
-                formControlName="nit"
-                class="w-full"
-                [ngClass]="{ 'ng-invalid ng-dirty': formTercero.get('nit')?.invalid }"
-              />
-            </p-iconField>
-          </div>
-
-          <div class="flex flex-column gap-2 col-6">
-            <label for="tipoDocumento" class="block font-bold mb-2"
-              >Tipo de documento</label
-            >
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-address-book" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Tipo de documento"
-                id="tipoDocumento"
-                formControlName="tipoDocumento"
-                class="w-full"
-                [ngClass]="{ 'ng-invalid ng-dirty': formTercero.get('tipoDocumento')?.invalid }"
-              />
-            </p-iconField>
-          </div>
-
-          <div class="flex flex-column gap-2 col-6">
-            <label for="nombre" class="block font-bold mb-2">Nombre</label>
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-user-edit" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Nombre"
-                formControlName="name"
-                id="nombre"
-                class="w-full"
-                [ngClass]="{ 'ng-invalid ng-dirty': formTercero.get('name')?.invalid}"
-              />
-            </p-iconField>
-          </div>
-
-          <div class="flex flex-column gap-2 col-6">
-            <label for="apellido" class="block font-bold mb-2">Apellido</label>
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-user-edit" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Apellido"
-                formControlName="lastName"
-                id="apellido"
-                class="w-full"
-              />
-            </p-iconField>
-          </div>
-
-          <div class="flex flex-column gap-2 col-6">
-            <label for="ciudad" class="block font-bold mb-2">Cuidad</label>
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-flag" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Ciudad"
-                formControlName="ciudad"
-                id="ciudad"
-                class="w-full"
-              />
-            </p-iconField>
-          </div>
-
-          <div class="flex flex-column gap-2 col-6">
-            <label for="pais" class="block font-bold mb-2">Pais</label>
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-flag" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Pais"
-                formControlName="pais"
-                id="pais"
-                class="w-full"
-              />
-            </p-iconField>
-          </div>
-
-          <div class="flex gap-2 col-6">
-            <div class="flex flex-column gap-2 col-6">
-              <label for="fecNacimiento" class="block font-bold mb-2"
-                >Fecha de Nacimiento</label
-              >
-              <p-inputMask
-                mask="99/99/9999"
-                placeholder="00/00/0000"
-                slotChar="dd/mm/yyyy"
-                formControlName="fechaNacimiento"
-              />
-            </div>
-            <div class="flex flex-column gap-2 col-6">
-                <label for="telefono" class="block font-bold mb-2">Telefono</label>
-                <p-inputMask
-                  mask="+57 999 999 9999"
-                  placeholder="+57 999 999 9999"
-                  formControlName="phoneNumber"
-                />
-            </div>
-          </div>
-
-          <!-- <div class="flex flex-column gap-2 col-6">
-            </div> -->
-
-          <div class="flex flex-column gap-2 col-6">
-            <label for="email" class="block font-bold mb-2">Email</label>
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-envelope" />
-              <input
-                type="text"
-                pInputText
-                placeholder="Email"
-                formControlName="email"
-                id="email"
-                class="w-full"
-              />
-            </p-iconField>
-          </div>
-        </div>
-        <button
-          pButton
-          pRipple
-          [outlined]="true"
-          label="Guardar"
-          class="p-button-success"
-          (click)="guardarTercero()"
-        ></button>
-      </form>
-    </p-panel>
+    
   </p-tabPanel>
   <p-tabPanel header="Header 2">
     <ng-template pTemplate="content">
@@ -159,7 +12,629 @@
       Complex Content to Lazy Load
     </ng-template>
   </p-tabPanel>
-</p-tabView>
+</p-tabView> -->
 
+<!-- <p-panel>
+  <form action="#" [formGroup]="formTercero" class="flex flex-column">
+
+      <div class="flex align-items-center justify-content-center flex-column col-5">
+        <div class="flex justify-content-center align-items-center">
+          <div class="col-6">
+            <label for="tipoTercero" class="block font-bold mb-2">Tipo de Tercero</label>
+            <p-dropdown
+              placeholder="Seleccione"
+              [showClear]="true"
+              [options]="tiposTerceros"
+              id="tipoTercero"
+              class="w-full"
+            >
+            </p-dropdown>
+          </div>
+          <div class="col-6">
+            <label for="tipoDocumento" class="block font-bold mb-2">Tipo de Documento</label>
+            <p-dropdown
+              placeholder="Seleccione"
+              formControlName="tipoDocumento"
+              [filter]="true"
+              [showClear]="true"
+              [options]="tiposDeDocumento"
+              id="tipoDocumento"
+              class="w-full"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        
+        <div class="col-12">
+          <label for="nit" class="block font-bold mb-2">Nit</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Nit"
+              id="nit"
+              formControlName="nit"
+              class="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty': formTercero.get('nit')?.invalid
+              }"
+            />
+          </p-iconField>
+        </div>
+      </div>
+      
+      
+      
+
+      <div class="flex flex-column gap-2 col-6">
+        <label for="nombre" class="block font-bold mb-2">Nombre</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-user-edit" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Nombre"
+            formControlName="name"
+            id="nombre"
+            class="w-full"
+            [ngClass]="{
+              'ng-invalid ng-dirty': formTercero.get('name')?.invalid
+            }"
+          />
+        </p-iconField>
+      </div>
+
+      <div class="flex flex-column gap-2 col-6">
+        <label for="apellido" class="block font-bold mb-2">Apellido</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-user-edit" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Apellido"
+            formControlName="lastName"
+            id="apellido"
+            class="w-full"
+          />
+        </p-iconField>
+      </div>
+
+      <div class="flex flex-column gap-2 col-6">
+        <label for="ciudad" class="block font-bold mb-2">Cuidad</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-flag" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Ciudad"
+            formControlName="ciudad"
+            id="ciudad"
+            class="w-full"
+          />
+        </p-iconField>
+      </div>
+
+      <div class="flex flex-column gap-2 col-6">
+        <label for="pais" class="block font-bold mb-2">Pais</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-flag" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Pais"
+            formControlName="pais"
+            id="pais"
+            class="w-full"
+          />
+        </p-iconField>
+      </div>
+
+      <div class="flex gap-2 col-6">
+        <div class="flex flex-column gap-2 col-6">
+          <label for="fecNacimiento" class="block font-bold mb-2"
+            >Fecha de Nacimiento</label
+          >
+          <p-inputMask
+            mask="99/99/9999"
+            placeholder="00/00/0000"
+            slotChar="dd/mm/yyyy"
+            formControlName="fechaNacimiento"
+          />
+        </div>
+        <div class="flex flex-column gap-2 col-6">
+          <label for="telefono" class="block font-bold mb-2"
+            >Telefono</label
+          >
+          <p-inputMask
+            mask="+57 999 999 9999"
+            placeholder="+57 999 999 9999"
+            formControlName="phoneNumber"
+          />
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2 col-6">
+        <label for="email" class="block font-bold mb-2">Email</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-envelope" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Email"
+            formControlName="email"
+            id="email"
+            class="w-full"
+          />
+        </p-iconField>
+      </div>
+    <button
+      pButton
+      pRipple
+      [outlined]="true"
+      label="Guardar"
+      class="p-button-success"
+      (click)="guardarTercero()"
+    ></button>
+  </form>
+</p-panel> -->
+
+<form [formGroup]="formTercero">
+  <p-card class="flex justify-content-center">
+    <!-- SelectButton -->
+    <p-selectButton
+      [options]="stateOptions"
+      optionLabel="label"
+      optionValue="value"
+      [(ngModel)]="vista"
+      [ngModelOptions]="{ standalone: true }"
+      styleClass="w-100"
+      unselectable="true"
+    />
+
+    <!-- Contenido -->
+    <ng-container *ngIf="vista === 'IB'">
+      <p-panel styleClass="mt-3">
+        <!-- Informacion Basica Contenido -->
+
+        <!-- Header Panel -->
+        <ng-template pTemplate="header">
+          <div class="flex flex-column">
+            <h2 class="mb-1">Información Básica</h2>
+            <span>Ingrese la información básica del tercero.</span>
+          </div>
+        </ng-template>
+
+        <!-- Contenido Panel -->
+
+        <!-- Tipo de Persona -->
+        <div>
+          <label for="tipoTercero" class="block font-bold mb-2"
+            >Tipo de Persona</label
+          >
+          <div class="field-checkbox gap-2">
+            <ng-container *ngFor="let tipoTercero of tiposTerceros">
+              <p-radioButton
+                [value]="tipoTercero"
+                [inputId]="tipoTercero.codigo"
+                formControlName="tipoTercero"
+              />
+              <label [for]="tipoTercero.codigo" class="ml-2"> {{ tipoTercero.descrip }} </label>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Tipo y Numero de Documento -->
+        <div class="flex">
+          <!-- Tipo de Documento -->
+          <div class="col-6 pl-0">
+            <label for="tipoDocumento" class="block font-bold mb-2"
+              >Tipo de Documento</label
+            >
+            <p-dropdown
+              placeholder="Seleccione el tipo de documento"
+              formControlName="tipoDocumento"
+              [filter]="true"
+              [showClear]="true"
+              [options]="tiposDeDocumento"
+              optionLabel="descrip"
+              id="tipoDocumento"
+              styleClass="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty': formTercero.get('tipoDocumento')?.invalid
+              }"
+            >
+            </p-dropdown>
+            <small *ngIf="formTercero.get('tipoDocumento')?.hasError('required')" class="text-red-500">
+              Este campo es obligatorio.
+            </small>
+            
+            <small *ngIf="formTercero.get('tipoDocumento')?.hasError('conflict')" class="text-red-500">
+              El Tipo de Documento ya existe.
+            </small>
+          </div>
+
+          <!-- Numero de Documento -->
+          <div class="col-6 pl-0 pr-0">
+            <label for="nit" class="block font-bold mb-2">Nit</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-user" />
+              <input
+                type="text"
+                maxlength="10"
+                minlength="8"
+                title="El NIT debe tener entre 8 y 10 dígitos."
+                pInputText
+                placeholder="Ingrese el NIT"
+                id="nit"
+                formControlName="numeroDocumento"
+                class="w-full"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': formTercero.get('numeroDocumento')?.invalid
+                }"
+              />
+            </p-iconField>
+            <small *ngIf="formTercero.get('numeroDocumento')?.hasError('maxlength') || formTercero.get('numeroDocumento')?.hasError('minlength')" class="text-red-500">
+              El NIT debe tener entre 8 y 10 dígitos.
+            </small>
+
+            <small *ngIf="formTercero.get('numeroDocumento')?.hasError('required')" class="text-red-500">
+              Este campo es obligatorio.
+            </small>
+
+            <small *ngIf="formTercero.get('numeroDocumento')?.hasError('conflict')" class="text-red-500">
+              El NIT ya existe.
+            </small>
+          </div>
+        </div>
+
+        <!-- Nombres y Apellidos -->
+        <div class="flex">
+          <div class="col-6 pl-0">
+            <label for="nombre" class="block font-bold mb-2">Nombres</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-user-edit" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ingrese los nombres"
+                formControlName="name"
+                id="nombre"
+                class="w-full"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': formTercero.get('name')?.invalid
+                }"
+              />
+            </p-iconField>
+            <small *ngIf="formTercero.get('name')?.hasError('required')" class="text-red-500">
+              Este campo es obligatorio.
+            </small>
+          </div>
+
+          <div class="col-6 pl-0">
+            <label for="apellido" class="block font-bold mb-2">Apellidos</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-user-edit" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ingrese los apellidos"
+                formControlName="lastName"
+                id="apellido"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+        </div>
+
+        <!-- Razon Social -->
+        <div>
+          <label for="razonSocial" class="block font-bold mb-2"
+            >Razón Social</label
+          >
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user-edit" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Ingrese la razón social (para personas jurídicas)"
+              formControlName="razonSocial"
+              id="razonSocial"
+              class="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty': formTercero.get('razonSocial')?.invalid
+              }"
+            />
+          </p-iconField>
+          <small *ngIf="formTercero.get('razonSocial')?.hasError('required')" class="text-red-500">
+            Este campo es obligatorio.
+          </small>
+        </div>
+
+        <!-- Fecha de Nacimiento y Genero -->
+        <div class="flex">
+          <div class="col-6 pl-0">
+            <label for="fecNacimiento" class="block font-bold mb-2"
+              >Fecha de Nacimiento (dd-mm-yyyy)</label
+            >
+            <p-calendar formControlName="fechaNacimiento" styleClass="w-full" dateFormat="dd-mm-yy" />
+          </div>
+
+          <div class="col-6 pl-0">
+            <label for="genero" class="block font-bold mb-2">Género</label>
+            <p-dropdown
+              placeholder="Seleccione el género"
+              formControlName="genero"
+              [showClear]="true"
+              [options]="generos"
+              id="genero"
+              styleClass="w-full"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <!-- Estado Civil -->
+        <div>
+          <label for="estadoCivil" class="block font-bold mb-2"
+            >Estado Civil</label
+          >
+          <p-dropdown
+            placeholder="Seleccione el estado civil"
+            formControlName="estadoCivil"
+            [showClear]="true"
+            [options]="estadosCiviles"
+            id="estadoCivil"
+            styleClass="w-full"
+          >
+          </p-dropdown>
+        </div>
+      </p-panel>
+    </ng-container>
+
+    <ng-container *ngIf="vista === 'IC'">
+      <p-panel styleClass="mt-3">
+        <!-- Informacion Contacto Contenido -->
+
+        <!-- Header Panel -->
+        <ng-template pTemplate="header">
+          <div class="flex flex-column">
+            <h2 class="mb-1">Información de Contacto</h2>
+            <span>Ingrese la información de contacto del tercero.</span>
+          </div>
+        </ng-template>
+
+        <div class="flex">
+          <div class="col-6 pl-0">
+            <label for="email" class="block font-bold mb-2">Email</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-envelope w-full" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ingrese el email"
+                formControlName="email"
+                id="email"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="col-6 pl-0">
+            <label for="telefono" class="block font-bold mb-2">Telefono</label>
+            <p-inputMask
+              mask="+57 999 999 9999"
+              placeholder="+57 999 999 9999"
+              formControlName="phoneNumber"
+              styleClass="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty': formTercero.get('phoneNumber')?.invalid
+              }"
+            />
+            <small *ngIf="formTercero.get('phoneNumber')?.hasError('required')" class="text-red-500">
+              Este campo es obligatorio.
+            </small>
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="col-6 pl-0">
+            <label for="ciudad" class="block font-bold mb-2">Ciudad</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-flag w-full" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ingrese la ciudad"
+                formControlName="ciudad"
+                id="ciudad"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="col-6 pl-0">
+            <label for="pais" class="block font-bold mb-2">Pais</label>
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-flag" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ingrese el pais"
+                formControlName="pais"
+                id="pais"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="col-6 pl-0">
+            <label for="departamento" class="block font-bold mb-2"
+              >Departamento</label
+            >
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-flag" />
+              <input
+                type="text"
+                pInputText
+                placeholder="Ingrese el departamento"
+                formControlName="departamento"
+                id="departamento"
+                class="w-full"
+              />
+            </p-iconField>
+          </div>
+
+          <div class="col-6 pl-0">
+            <label for="codigoPostal" class="block font-bold mb-2"
+              >Código Postal</label
+            >
+            <p-inputMask
+              mask="99999-999"
+              placeholder="99999-999"
+              formControlName="codigoPostal"
+              styleClass="w-full"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="direccion" class="block font-bold mb-2">Dirección</label>
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-flag" />
+            <input
+              type="text"
+              pInputText
+              placeholder="Ingrese la dirección"
+              formControlName="direccion"
+              id="direccion"
+              class="w-full"
+              [ngClass]="{
+                'ng-invalid ng-dirty': formTercero.get('direccion')?.invalid
+              }"
+            />
+          </p-iconField>
+          <small *ngIf="formTercero.get('direccion')?.hasError('required')" class="text-red-500">
+            Este campo es obligatorio.
+          </small>
+        </div>
+      </p-panel>
+    </ng-container>
+
+    <ng-container *ngIf="vista === 'IF'">
+      <p-panel styleClass="mt-3">
+        <!-- Informacion Financiera Contenido -->
+
+        <!-- Header Panel -->
+        <ng-template pTemplate="header">
+          <div class="flex flex-column">
+            <h2 class="mb-1">Información Financiera</h2>
+            <span>Ingrese la información financiera del tercero.</span>
+          </div>
+        </ng-template>
+      </p-panel>
+    </ng-container>
+
+    <ng-container *ngIf="vista === 'CT'">
+      <p-panel styleClass="mt-3">
+        <!-- Clasificacion del Tercero Contenido -->
+
+        <!-- Header Panel -->
+        <ng-template pTemplate="header">
+          <div class="flex flex-column">
+            <h2 class="mb-1">Clasificación del Tercero</h2>
+            <span>Ingrese la clasificación del tercero.</span>
+          </div>
+        </ng-template>
+
+        <div class="flex">
+          <div class="col-6 pl-0">
+            <label for="subTipoTercero" class="block font-bold mb-2">
+              Subtipo de Persona</label
+            >
+            <p-dropdown
+              placeholder="Seleccione el subtipo de persona"
+              formControlName="subTipoTercero"
+              [showClear]="true"
+              [options]="subtiposPersonaFiltrados"
+              optionLabel="descrip"
+              id="subTipoTercero"
+              styleClass="w-full"
+            >
+            
+            </p-dropdown>
+          </div>
+
+          <div class="col-6 pl-0">
+            <label for="rolOperaciones" class="block font-bold mb-2">
+              Rol en la Operación</label
+            >
+
+            <p-multiSelect
+              [options]="rolOperacion"
+              formControlName="rolOperaciones"
+              optionLabel="descrip"
+              placeholder="Seleccione el rol en la operación"
+              styleClass="w-full"
+              id="rolOperaciones"
+            >
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="flex flex-column">
+          <h3 class="mb-1">Clasificación Fiscal</h3>
+          <span
+            >Seleccione todas las clasificaciones fiscales que apliquen.</span
+          >
+          <div
+            class="flex flex-column mt-4 gap-2"
+          >
+            <ng-container *ngFor="let item of clasificacionesFiscales; let i = index">
+              <div
+              class="flex gap-2"
+                *ngIf="item.activo"
+              >
+                <p-checkbox
+                  formControlName="clasificacionesFiscales"
+                  [value]="item"
+                  [inputId]="item.codigo"
+                ></p-checkbox>
+                <label [for]="item.codigo">{{
+                  item.descrip
+                }}</label>
+              </div>
+            </ng-container>
+
+          </div>
+        </div>
+      </p-panel>
+    </ng-container>
+
+    <div class="mt-4">
+      <label for="observaciones" class="block font-bold mb-2"
+        >Observaciones</label
+      >
+      <input
+        type="text"
+        pInputText
+        id="observaciones"
+        formControlName="observaciones"
+        class="w-full h-1"
+      />
+    </div>
+
+    <button
+      pButton
+      class="p-button-success w-full flex justify-content-center font-bold mt-2 text-end"
+      (click)="guardarTercero()"
+    >
+      Guardar
+    </button>
+  </p-card>
+</form>
 
 <p-toast></p-toast>

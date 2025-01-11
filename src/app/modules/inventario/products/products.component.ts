@@ -23,6 +23,7 @@ import { ToastModule } from 'primeng/toast';
 import { DatosFService } from '../../../serviceComponents/datos-f.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TablaComponent } from "../../../component/tabla/tabla/tabla.component";
+import { Router } from '@angular/router';
 
 interface Estado {
   severity: string;
@@ -53,8 +54,7 @@ interface Column {
     ToolbarModule,
     ToastModule,
     ProgressSpinnerModule,
-    TablaComponent,
-    AgregarproductoComponent
+    TablaComponent
 ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
@@ -62,12 +62,13 @@ interface Column {
 })
 export class ProductsComponent implements OnInit {
   @ViewChild('dt1') dt!: Table;
-  @ViewChild('agregarProducto') agregarProducto!: AgregarproductoComponent;
+  
 
   private _productoService = inject(ProductoService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
   private _datosFService = inject(DatosFService);
+  private _router = inject(Router);
 
   modo: string = 'tabla';
   productos!: Producto[];
@@ -112,6 +113,10 @@ export class ProductsComponent implements OnInit {
       this.initialValue = [...this.productos];
       this.loading = false;
     });
+  }
+
+  agregarProducto() {
+    this._router.navigate(['/inventario/agregar-producto']);
   }
 
 
