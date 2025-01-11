@@ -7,6 +7,7 @@ import { RegistroComponent } from './component/registro/registro.component';
 import { FormapagoComponent } from './component/tabla/auxiliares/formaPago/formapago/formapago.component';
 import { TerceroComponent } from './component/tercero/tercero.component';
 import { AgregarTerceroComponent } from './component/tercero/agregar-tercero/agregar-tercero.component';
+import { AgregarproductoComponent } from './modules/inventario/agregarproducto/agregarproducto.component';
 
 export const routes: Routes = [
   {
@@ -26,4 +27,5 @@ export const routes: Routes = [
   { path: 'tercero/terceros', component: TerceroComponent, data: { title: 'Terceros' }, canActivate: [AuthGuard] },
   { path: 'tercero/agregar-tercero', component: AgregarTerceroComponent, data: { title: 'Agregar Tercero' }, canActivate: [AuthGuard] },
   { path: 'inventario/productos', component: ProductsComponent, data: { title: 'Productos' }, canActivate: [AuthGuard] },
+  { path: 'inventario/agregar-producto', component: AgregarproductoComponent, data: { title: 'Agregar Producto' }, canActivate: [AuthGuard] },
 ];

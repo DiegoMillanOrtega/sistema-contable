@@ -3,6 +3,7 @@
 <p-card>
     <app-tabla
     [btnAgregarData]="false"
+    [dataKey]="'tercero_id'"
     [tableTitle]="'Terceros'"
     [resizableColumns]="false"
     [data]="terceros"
@@ -12,6 +13,8 @@
     (eliminarDataEvent)="eliminarTercero($event)"
     [exportarData]="esInvocado"
     (exportarDataEvent)="exportarTerceros($event)"
+    [btnAgregarData]="true"
+    (agregarDataEvent)="agregarTercero()"
 />
 </p-card>
 <p-toast></p-toast>

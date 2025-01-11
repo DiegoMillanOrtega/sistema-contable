@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { TablaComponent } from '../../../component/tabla/tabla/tabla.component';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
@@ -16,7 +16,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { BodegaService } from '../../../service/bodega.service';
 import { TerceroService } from '../../../service/tercero.service';
 import { Bodega } from '../../../interface/bodega.interface';
-import { Tercero } from '../../../interface/tercero.interface';
+
 import { TipoBodega } from '../../../interface/tipo-bodega.interface';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -27,6 +27,8 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { TerceroComponent } from "../../../component/tercero/tercero.component";
 import { TooltipModule } from 'primeng/tooltip';
+import { ServiceBaseService } from '../../../service/service-base.service';
+import { Terceros } from '../../../interface/tercero.interface';
 
 
 
@@ -61,6 +63,11 @@ import { TooltipModule } from 'primeng/tooltip';
   providers: [BodegaService, MessageService, ConfirmationService, TerceroService, InventarioService],
 })
 export class BodegaComponent {
+
+  @Input() exportarData: boolean = false;
+  @Output() exportarDataEvent = new EventEmitter<Bodega>();
+
+
   //Variables
   loading = true;
   visible = false;
@@ -70,12 +77,13 @@ export class BodegaComponent {
   modo!: string;
   viewIndexTipoBodega: number = 0;
 
+
   //Objetos
   bodegas: Bodega[] = [];
   tipoBodegas: TipoBodega[] = [];
   bodegaForm!: FormGroup;
   tipoBodegaForm!: FormGroup;
-  terceros: Tercero[] = [];
+  terceros: Terceros[] = [];
   estados: Object[] = [{ estado: 'Activo' }, { estado: 'Inactivo' }];
   mainColumns: { field: string; header: string; object?: boolean; objectKey?: string }[] = [
     { field: 'nombre', header: 'Nombre' },
@@ -283,8 +291,8 @@ export class BodegaComponent {
     }
     if (this.bodegaForm.get('responsable')?.value !== '') {
       
-      const responsable: Tercero | undefined = this.terceros.find(
-        (t) => t.nit === this.bodegaForm.get('responsable')?.value.nit
+      const responsable: Terceros | undefined = this.terceros.find(
+        (t) => t.numeroDocumento === this.bodegaForm.get('responsable')?.value.numeroDocumento
       );
       if (responsable === undefined) {
         this.messageService.add({
@@ -419,7 +427,7 @@ export class BodegaComponent {
     }
   }
 
-  asignarTerceroInput(tercero: Tercero) {
+  asignarTerceroInput(tercero: Terceros) {
     if (tercero !== undefined) {
       this.bodegaForm.get('responsable')?.setValue(tercero);
       this.visibleTerceros = false;
@@ -447,5 +455,9 @@ export class BodegaComponent {
       nombre: tipoBodega.nombre,
     });
 
+  }
+
+  exportarBodega(bodega: Bodega) {
+    this.exportarDataEvent.emit(bodega);
   }
 }

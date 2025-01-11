@@ -18,10 +18,7 @@
     [globalFilterFields]="fieldsFilter"
     [btnAgregarData]="true"
     [selectColumns]="true"
-    (agregarDataEvent)="modo = 'agregar'"
+    (agregarDataEvent)="agregarProducto()"
   />
   <p-toast />
-</ng-container>
-<ng-container *ngIf="!loading && (modo === 'agregar' || modo === 'editar')">
-  <app-agregarproducto/>
 </ng-container>

@@ -111,6 +111,7 @@
             let index = index;
             trackBy: trackByIndex
           "
+          (dblclick)="editRow(rowData)"
         >
           <!-- Si es un objeto, muestra el campo de la clave del objeto -->
           <ng-container *ngIf="col.object; else elseBlock">
